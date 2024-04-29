@@ -54,7 +54,7 @@ const Sidebar = ({sidebar}) => {
                 <img src={simon} alt="" /> <p>Dieudonné Takasi</p>
             </div>
             <div className='side-link'>
-                <img src={tom} alt="" /> <p>Flo Falaevaki</p>
+                <img src={tom} alt="" /> <p>Floris Falelavaki</p>
             </div>
             <div className='side-link'>
                 <img src={megan} alt="" /> <p>Nico Ford</p>
