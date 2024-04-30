@@ -27,8 +27,6 @@ export const Navbar = ({setSidebar}) => {
             </div>
         </div>
 
-// feafaefa
-
         <div className='nav-right flex-div'>
            <Link to="/Upload_Image">
               <img src={upload_icon} alt="" />
