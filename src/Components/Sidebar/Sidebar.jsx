@@ -14,6 +14,7 @@ import simon from '../../assets/simon.png'
 import tom from '../../assets/tom.png'
 import megan from '../../assets/megan.png'
 import cameron from '../../assets/cameron.png'
+import lionel from '../../assets/lionel.png'
 
 const Sidebar = ({sidebar}) => {
   return (
@@ -51,19 +52,22 @@ const Sidebar = ({sidebar}) => {
         <div className='subscribed-list'>
             <h3>Subscribed</h3>
             <div className='side-link'>
-                <img src={jack} alt="" /> <p>Maxime Tonnelier</p>
+                <img src={jack} alt=""/> <p>Maxime Tonnelier</p>
             </div>
             <div className='side-link'>
-                <img src={simon} alt="" /> <p>Dieudonné Takasi</p>
+                <img src={simon} alt=""/> <p>Dieudonné Takasi</p>
             </div>
             <div className='side-link'>
-                <img src={tom} alt="" /> <p>Floris Falelavaki</p>
+                <img src={lionel} alt=""/> <p>Sean Rogers</p>
             </div>
             <div className='side-link'>
-                <img src={megan} alt="" /> <p>Nico Ford</p>
+                <img src={tom} alt=""/> <p>Floris Falelavaki</p>
             </div>
             <div className='side-link'>
-                <img src={cameron} alt="" /> <p>Uto Jo</p>
+                <img src={megan} alt=""/> <p>Nicolas MC</p>
+            </div>
+            <div className='side-link'>
+                <img src={cameron} alt=""/> <p>Jo Uto</p>
             </div>
         </div>
     </div>
