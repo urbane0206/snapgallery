@@ -5,7 +5,7 @@
 .side-video-list{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .side-video-list img{
