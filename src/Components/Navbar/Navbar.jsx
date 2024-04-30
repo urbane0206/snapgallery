@@ -33,7 +33,10 @@ export const Navbar = ({setSidebar}) => {
            </Link>
            <img src={more_icon} alt="" />
            <img src={notification_icon} alt="" />
-           <img src={profile_icon} className='user-icon' alt="" /> 
+           <Link to="/login">
+            <img src={profile_icon} className='user-icon' alt="" /> 
+           </Link>
+           
         </div>
     </nav>
   )

@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './Pages/Home/Home'
 import Image from './Pages/Image/Image'
 import Upload_Image from './Pages/Upload_Image/Upload_Image'
+import Login from './Pages/Login/Login'
 
 const App = () => {
 
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/' element={<Home sidebar={sidebar} />} />
         <Route path='/image/:categoryId/:imageId' element={<Image/>} />
         <Route path='/Upload_Image' Component={Upload_Image}></Route>
+        <Route path='/login' Component={Login}></Route>
       </Routes>
     </div>
   )
