@@ -1,13 +1,20 @@
 import React, { useState, useRef, useCallback } from 'react';
-import './UploadImage.css';
+import './UploadImage.css'; // Assurez-vous que le chemin est correct
 import background from '../../assets/login-bg.png';
 
 const UploadImage = () => {
   const [file, setFile] = useState(null);
-  const fileInputRef = useRef(null); // Crée une référence pour l'input file
+  const [isDragOver, setIsDragOver] = useState(false); // Nouvel état pour gérer le survol
+  const fileInputRef = useRef(null);
 
   const handleDragOver = useCallback((event) => {
-    event.preventDefault(); // Nécessaire pour permettre le drop
+    event.preventDefault();
+    setIsDragOver(true); // Met à jour l'état lorsque un fichier est glissé sur la zone
+  }, []);
+
+  const handleDragLeave = useCallback((event) => {
+    event.preventDefault();
+    setIsDragOver(false); // Réinitialise l'état lorsque le fichier quitte la zone
   }, []);
 
   const handleDrop = useCallback((event) => {
@@ -15,14 +22,15 @@ const UploadImage = () => {
     if (event.dataTransfer.files && event.dataTransfer.files[0]) {
       setFile(event.dataTransfer.files[0]);
     }
+    setIsDragOver(false); // Réinitialise l'état après le dépôt du fichier
   }, []);
 
   const handleClick = () => {
-    fileInputRef.current.click(); // Déclenche le clic sur l'input file
+    fileInputRef.current.click();
   };
 
   const handleChange = (event) => {
-    setFile(event.target.files[0]); // Met à jour le fichier sélectionné
+    setFile(event.target.files[0]);
   };
 
   const handleSubmit = async (event) => {
@@ -55,17 +63,18 @@ const UploadImage = () => {
         <h1 className="upload__title">Upload File</h1>
 
         <div 
-          className="upload__input-wrapper"
+          className={`upload__input-wrapper ${isDragOver ? 'drag-over' : ''}`}
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          onClick={handleClick} 
+          onClick={handleClick}
         >
           <input
             type="file"
-            ref={fileInputRef} 
+            ref={fileInputRef}
             className="upload__input"
             onChange={handleChange}
-            style={{ display: 'none' }} 
+            style={{ display: 'none' }}
           />
           <label htmlFor="file-upload" className="upload__drag-area">
             Glissez et déposez un fichier ici ou cliquez pour sélectionner un fichier
