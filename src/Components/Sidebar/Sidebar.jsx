@@ -23,6 +23,9 @@ const Sidebar = ({sidebar}) => {
                 <img src={home} alt="" /><p>Home</p>
             </div>
             <div className='side-link'>
+                <img src={music} alt="" /><p>Music</p>
+            </div>
+            <div className='side-link'>
                 <img src={game_icon} alt="" /><p>Gaming</p>
             </div>
             <div className='side-link'>

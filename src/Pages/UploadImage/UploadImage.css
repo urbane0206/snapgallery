@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+:root {
+  --white-color: hsl(0, 0%, 100%);
+  --black-color: hsl(0, 0%, 0%);
+  --body-font: "Poppins", sans-serif;
+  --h1-font-size: 2rem;
+  --normal-font-size: 1rem;
+  --small-font-size: .813rem;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body,
+input,
+button {
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+}
+
+.upload {
+  position: relative;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload__form {
+  position: relative;
+  background-color: hsla(0, 0%, 100%, .01);
+  border: 2px solid hsla(0, 0%, 100%, .7);
+  padding: 2.5rem 1rem;
+  color: var(--white-color);
+  border-radius: 1rem;
+  backdrop-filter: blur(16px);
+  width: 420px;
+}
+
+.upload__title {
+  text-align: center;
+  font-size: var(--h1-font-size);
+  margin-bottom: 1.25rem;
+}
+
+.upload__input-wrapper {
+    position: relative;
+    border: 2px dashed hsla(0, 0%, 100%, .7);
+    border-radius: 1rem;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    background-color: hsla(0, 0%, 100%, .05);
+    backdrop-filter: blur(10px);
+    margin-bottom: 20px;
+}
+
+.upload__input {
+  width: 100%;
+  background: none;
+  color: var(--white-color);
+  border: none;
+  outline: none;
+}
+
+.upload__button {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: var(--white-color);
+  border-radius: 4rem;
+  color: var(--black-color);
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.upload__input-wrapper:hover {
+    background-color: hsla(0, 0%, 100%, .1);
+}
+  
+.upload__drag-area {
+    width: 100%;
+    padding: 1rem;
+    pointer-events: none;
+} 
+
+@media screen and (min-width: 576px) {
+    .upload {
+      justify-content: center;
+    }
+    .upload__form {
+      width: 420px;
+      padding-inline: 2.5rem;
+    }
+    .upload__title {
+      margin-bottom: 2rem;
+    }
+  }
+  

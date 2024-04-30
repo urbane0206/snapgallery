@@ -68,6 +68,38 @@ const Recommanded = () => {
             <p>199K Views</p>
           </div>
         </div>
+        <div className="side-video-list">
+          <img src={thumbnail1} alt="" />
+          <div className="vid-info">
+            <h4>Image Title</h4>
+            <p>Channel Name</p>
+            <p>199K Views</p>
+          </div>
+        </div>
+        <div className="side-video-list">
+          <img src={thumbnail2} alt="" />
+          <div className="vid-info">
+            <h4>Image Title</h4>
+            <p>Channel Name</p>
+            <p>199K Views</p>
+          </div>
+        </div>
+        <div className="side-video-list">
+          <img src={thumbnail3} alt="" />
+          <div className="vid-info">
+            <h4>Image Title</h4>
+            <p>Channel Name</p>
+            <p>199K Views</p>
+          </div>
+        </div>
+        <div className="side-video-list">
+          <img src={thumbnail4} alt="" />
+          <div className="vid-info">
+            <h4>Image Title</h4>
+            <p>Channel Name</p>
+            <p>199K Views</p>
+          </div>
+        </div>
     </div>
   )
 }
