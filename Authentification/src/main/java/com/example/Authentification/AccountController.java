@@ -61,7 +61,7 @@ public class AccountController {
 
    @PostMapping("/login")
    public ResponseEntity<String> Login(@RequestBody Account account){
-       Account accountConnection = repository.findByuserName(account.userName);
+       Account accountConnection = repository.findByemail(account.email);
        if(accountConnection!= null){
            if(account.password.equals(accountConnection.password)){
                accountConnection.setOnline();
@@ -70,7 +70,7 @@ public class AccountController {
            }
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect.");
        }
-       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nom d'utilisateur non trouvé.");
+       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email de connexion non trouvé.");
    }
 
 
