@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 //import java.nio.file.Files;
 //import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -101,6 +102,23 @@ public class AccountController {
    public List<Account> AllAccount(){
        return repository.findAll();
    }
+
+
+   @GetMapping("/User-connected")
+   public Account getAccountConnected(){
+        List <Account> listeCompte = new ArrayList<>();
+        listeCompte = repository.findAll();
+        for (Account account : listeCompte){
+            if (account.online == true){
+                return account;
+            }
+        }
+        return null;
+   }
+
+
+
+
 
    ///@GetMapping("/deleteAll")
    ///public void deleteAll(){
