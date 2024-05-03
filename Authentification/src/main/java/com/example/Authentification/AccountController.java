@@ -60,17 +60,17 @@ public class AccountController {
    /// Connexion à un compte déjà existant
 
    @PostMapping("/login")
-   public ResponseEntity<String> Login(@RequestBody Account account){
+   public ResponseEntity<Account> Login(@RequestBody Account account){
        Account accountConnection = repository.findByemail(account.email);
        if(accountConnection!= null){
            if(account.password.equals(accountConnection.password)){
                accountConnection.setOnline();
                repository.save(accountConnection);
-               return ResponseEntity.ok("L'utilisateur est connecté avec succès.");
+               return ResponseEntity.ok(accountConnection);
            }
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
        }
-       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email de connexion non trouvé.");
+       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
    }
 
 
