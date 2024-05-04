@@ -9,8 +9,8 @@ public interface AccountRepository extends MongoRepository<Account,String> {
 
     Account findByuserName(String userName);
     List<Account> findAll();
-
     Account findByemail(String email);
+
     
     @Query("{'username': ?0}")
     void setonlineByusername(String username);
