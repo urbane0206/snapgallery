@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import './Login.css'; 
 import background from '../../assets/login-bg.png'; 
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
+  const navigate = useNavigate(); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [redirectToAccount, setRedirectToAccount] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = { email, password };
-    console.info(data);
 
     try {
       const response = await fetch('http://localhost:2000/login', {
@@ -20,8 +24,13 @@ const Login = () => {
         },
         body: JSON.stringify(data)
       });
-      const responseData = await response.json();
-      console.log(responseData);
+
+      if (response.status === 401){
+        setErrorMessage("Identifiants incorrects. Veuillez réessayer.");
+      } else if (response.status === 200){
+        const responseData = await response.json();
+        navigate('/account');
+      }
     } catch (error) {
       console.error('Erreur lors de la soumission du formulaire :', error);
     }
@@ -56,7 +65,15 @@ const Login = () => {
             />
             <i className="ri-lock-2-fill"></i>
           </div>
+          <br></br>
         </div>
+        {errorMessage && <div className="error-message">{errorMessage}
+        </div>}
+        <div>
+        {redirectToAccount && <Redirect to="/account" />}
+        </div>
+        
+        <br></br>
 
         <div className="login__check">
           <div className="login__check-box">

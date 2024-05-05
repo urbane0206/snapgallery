@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 //import java.nio.file.Files;
 //import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,17 +61,17 @@ public class AccountController {
    /// Connexion à un compte déjà existant
 
    @PostMapping("/login")
-   public ResponseEntity<String> Login(@RequestBody Account account){
+   public ResponseEntity<Account> Login(@RequestBody Account account){
        Account accountConnection = repository.findByemail(account.email);
        if(accountConnection!= null){
            if(account.password.equals(accountConnection.password)){
                accountConnection.setOnline();
                repository.save(accountConnection);
-               return ResponseEntity.ok("L'utilisateur est connecté avec succès.");
+               return ResponseEntity.ok(accountConnection);
            }
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
        }
-       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email de connexion non trouvé.");
+       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
    }
 
 
@@ -101,6 +102,20 @@ public class AccountController {
    public List<Account> AllAccount(){
        return repository.findAll();
    }
+
+
+   @GetMapping("/User-connected")
+   public Account getAccountConnected(){
+        List <Account> listeCompte = new ArrayList<>();
+        listeCompte = repository.findAll();
+        for (Account account : listeCompte){
+            if (account.online == true){
+                return account;
+            }
+        }
+        return null;
+   }
+
 
    ///@GetMapping("/deleteAll")
    ///public void deleteAll(){
