@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css'; 
 import background from '../../assets/login-bg.png'; 
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate(); 
@@ -34,6 +34,11 @@ const Login = () => {
     } catch (error) {
       console.error('Erreur lors de la soumission du formulaire :', error);
     }
+  };
+
+
+  const handleGoogleLogin = () => {
+    console.log('Connexion avec Google');
   };
 
   return (
@@ -91,9 +96,12 @@ const Login = () => {
         </div>
 
         <button type="submit" className="login__button">Login</button>
+        <div className="Inscription__google-login">
+          <button className="Inscription__google-login-button" onClick={handleGoogleLogin}>Se connecter avec Google</button>
+        </div>
 
         <div className="login__register">
-          Don't have an account? <a href="#">Register</a>
+          Don't have an account? <Link to="/Inscription">Register</Link>
         </div>
       </form>
     </div>

@@ -6,6 +6,7 @@ import Image from './Pages/Image/Image'
 import UploadImage from './Pages/UploadImage/UploadImage'
 import Login from './Pages/Login/Login'
 import AccountPage from './Pages/Account/AccountPage'
+import Inscription from './Pages/Inscription/Inscription'
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path='/UploadImage' element={<UploadImage />} />
         <Route path='/login' element={<Login />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path='/inscription' element={<Inscription/>}/>
       </Routes>
     </div>
   )
