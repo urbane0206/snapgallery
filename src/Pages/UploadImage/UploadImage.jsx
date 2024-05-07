@@ -82,6 +82,12 @@ const UploadImage = () => {
           <i className="ri-upload-cloud-2-fill"></i>
         </div>
 
+        <input 
+            type="text" 
+            name="titre"
+            placeholder="Title"
+        />
+
         <button type="submit" className="upload__button">Upload</button>
       </form>
     </div>
