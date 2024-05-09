@@ -45,7 +45,7 @@ const UploadImage = () => {
     formData.append("file", file);
 
     try {
-      const response = await fetch('http://localhost:2000/upload', {
+      const response = await fetch('http://localhost:2001/upload', {
         method: 'POST',
         body: formData,
       });
@@ -78,6 +78,12 @@ const UploadImage = () => {
           />
           <label htmlFor="file-upload" className="upload__drag-area">
             Glissez et déposez un fichier ici ou cliquez pour sélectionner un fichier
+            {file && (
+                <div class="image-preview">
+                  <h3>Image sélectionnée :</h3>
+                  <img src={URL.createObjectURL(file)} alt="Uploaded" class="uploaded-image" />
+                </div>
+            )}
           </label>
           <i className="ri-upload-cloud-2-fill"></i>
         </div>
@@ -85,7 +91,13 @@ const UploadImage = () => {
         <input 
             type="text" 
             name="titre"
-            placeholder="Title"
+            placeholder="Titre de l'image"
+        />
+
+        <input 
+            type="text" 
+            name="description"
+            placeholder="Description de l'image"
         />
 
         <button type="submit" className="upload__button">Upload</button>
@@ -93,5 +105,7 @@ const UploadImage = () => {
     </div>
   );
 };
+
+
 
 export default UploadImage;
