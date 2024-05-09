@@ -46,12 +46,5 @@ def like_comment(comment_id):
     db.session.commit()
     return jsonify(comment.to_dict())
 
-@app.route('/comments/<int:comment_id>/share', methods=['GET'])
-def share_comment(comment_id):
-    comment = Comment.query.get(comment_id)
-    if comment is None:
-        return jsonify({'error': 'Comment not found'}), 404
-    return jsonify(comment.to_dict())
-
 if __name__ == '__main__':
     app.run(debug=True)

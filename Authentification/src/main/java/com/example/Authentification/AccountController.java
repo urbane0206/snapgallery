@@ -53,7 +53,7 @@ public class AccountController {
        else{
            String newId = String.valueOf(repository.count()+1);
            String dateOfDay = LocalDate.now().toString();
-           repository.save(new Account(newId, account.userName, account.password, dateOfDay, account.email,true));
+           repository.save(new Account(newId, account.userName, account.password, dateOfDay, account.email,true , account.nom , account.prenom , account.dateDeNaissance));
            return ResponseEntity.status(HttpStatus.CREATED).body("Compte créé avec succès !");
        }
    }
