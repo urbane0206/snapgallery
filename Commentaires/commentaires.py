@@ -21,7 +21,7 @@ class Comment(db.Model):
             'id': self.id,
             'content': self.content,
             'likes': self.likes,
-            'created_at': self.created_at.strftime('%d/%m/%Y %H:%M:%S')
+            'created_at': self.created_at.strftime('%d/%m/%Y %H:%M')
         }
 
 @app.before_request
@@ -31,6 +31,26 @@ def create_tables():
 @app.route('/')
 def home():
     return jsonify({'message': 'Welcome to the Comment API!'})
+
+@app.route('/comments/<int:comment_id>', methods=['PUT'])
+def update_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    data = request.json
+    if 'content' in data:
+        comment.content = data['content']
+        db.session.commit()
+        return jsonify(comment.to_dict()), 200
+    return jsonify({"error": "Content is required"}), 400
+
+# Méthode pour supprimer un commentaire, grâce à l'id du commentaire
+
+@app.route('/comments/<int:comment_id>', methods=['DELETE'])
+def delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    db.session.delete(comment)
+    db.session.commit()
+    return jsonify({'message': 'Comment deleted'}), 200
+
 
 
 
@@ -44,7 +64,10 @@ def add_comment():
     db.session.commit()
     return jsonify(comment.to_dict()), 201
 
-
+@app.route('/comments/count', methods=['GET'])
+def get_comments_count():
+    count = Comment.query.count()
+    return jsonify({'count': count})
 
 
 @app.route('/comments', methods=['GET'])
@@ -61,7 +84,7 @@ def like_comment(comment_id):
     db.session.commit()
     return jsonify(comment.to_dict())
 
-@app.route('/comments/<int:comment_id>/likes', methods=['GET'])
+@app.route('/comments/<int:comment_id>/like', methods=['GET'])
 def get_likes(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     return jsonify({'likes': comment.likes})

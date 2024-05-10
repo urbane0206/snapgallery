@@ -8,10 +8,23 @@ import share from '../../assets/share.png';
 import save from '../../assets/save.png';
 import jack from '../../assets/jack.png';
 import user_profile from '../../assets/user_profile.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const DisplayImage = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [commentsCount, setCommentsCount] = useState(0);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editingContent, setEditingContent] = useState("");
+    const [visibleActionCommentId, setVisibleActionCommentId] = useState(null);
+
+
+    useEffect(() => {
+        fetchCommentsCount();
+    }, []); // The empty dependency array ensures this effect runs only once when the component mounts.
+
+
 
     useEffect(() => {
         axios.get('http://localhost:5000/comments')
@@ -43,20 +56,60 @@ const DisplayImage = () => {
             });
     };
 
+    const fetchCommentsCount = async () => {
+        axios.get('http://localhost:5000/comments/count')
+            .then(response => {
+                setCommentsCount(response.data.count); // Set the comments count state
+            })
+            .catch(error => {
+                console.error('Error fetching comments count:', error);
+            });
+    };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!newComment.trim()) return;  // Assurez-vous que le commentaire n'est pas juste des espaces blancs
         axios.post('http://localhost:5000/comments', { content: newComment })
             .then(response => {
-                setComments([response.data, ...comments]); // Préfixez le nouveau commentaire
-                setNewComment(''); // Réinitialiser l'input après l'envoi
+                setComments(prevComments => [response.data, ...prevComments]); // Use a functional update
+                setCommentsCount(prevCount => prevCount + 1);  // Increment the comments count
+                setNewComment(''); // Reset the input after submission
             })
             .catch(error => {
                 console.error('Failed to post comment', error);
             });
     };
 
+    const handleUpdateComment = (commentId) => {
+        axios.put(`http://localhost:5000/comments/${commentId}`, { content: editingContent })
+            .then(response => {
+                setComments(prevComments => prevComments.map(comment => {
+                    if (comment.id === commentId) {
+                        return { ...comment, ...response.data };
+                    }
+                    return comment;
+                }));
+                setEditingCommentId(null);  // Reset editing state
+            })
+            .catch(error => {
+                console.error('Error updating comment:', error);
+            });
+    };
+
+    const handleDelete = (commentId) => {
+        // Envoi d'une requête DELETE au serveur
+        axios.delete(`http://localhost:5000/comments/${commentId}`)
+            .then(response => {
+                const updatedComments = comments.filter(comment => comment.id !== commentId);
+                setComments(updatedComments);
+                setCommentsCount(prevCount => prevCount - 1);
+                console.log(response.data.message);
+            })
+            .catch(error => {
+                console.error('Error deleting comment:', error);
+            });
+    };
 
     return (
         <div className='show-image'>
@@ -85,34 +138,67 @@ const DisplayImage = () => {
                     <p>Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
                 <hr />
-                {/* <h4>Ajouter un commentaire</h4> */}
                 <form onSubmit={handleSubmit} className="comment-form">
                     <input
                         type="text" className="comment-input"
                         value={newComment}
                         onChange={handleInputChange}
-                        placeholder="Votre commentaire ici"
+                        placeholder="Ajoutez un commentaire..."
                         required
                     />
                 </form>
                 <hr />
-                <h4>Comments</h4>
+                <h4>{commentsCount} commentaires </h4>
+
+
                 {comments.map(comment => (
                     <div key={comment.id} className="comment">
                         <img src={user_profile} alt="" />
-                        <div>
+                        <div className="comment-details">
                             <h3>{comment.username || 'Anonymous'} <span>{comment.created_at}</span></h3>
-                            <p>{comment.content}</p>
+                            <div className='comment-content'>
+                                {editingCommentId === comment.id ? (
+                                    <input
+                                        className='comment-edit-input'
+                                        type="text"
+                                        value={editingContent}
+                                        onChange={(e) => setEditingContent(e.target.value)}
+                                    />
+                                ) : (
+                                    <p>{comment.content}</p>
+                                )}
+                            </div>
                             <div className="comment-action">
                                 <img src={like} alt="Like" onClick={() => handleLike(comment.id)} />
                                 <span>{comment.likes}</span>
                                 <img src={dislike} alt="Dislike" />
                             </div>
+                            <button
+                                className="more-actions-button"
+                                onClick={() => setVisibleActionCommentId(visibleActionCommentId === comment.id ? null : comment.id)}
+                            >
+                                ⋮
+                            </button>
+                            {visibleActionCommentId === comment.id && (
+                                <div className='comment-actions'>
+                                    {editingCommentId === comment.id ? (
+                                        <>
+                                            <button onClick={() => handleUpdateComment(comment.id)}>Sauvegarder</button>
+                                            <button onClick={() => setEditingCommentId(null)}>Annuler</button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button onClick={() => { setEditingCommentId(comment.id); setEditingContent(comment.content); }}>Modifier</button>
+                                            <button onClick={() => handleDelete(comment.id)}>
+                                                <FontAwesomeIcon icon={faTrashCan} />
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
-
-
             </div>
         </div>
     );

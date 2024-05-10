@@ -110,11 +110,21 @@
   color: #5a5a5a;
   margin-top: 15px;
 }
-
+.comment,
+.comment * {
+  font-family: "Arial", sans-serif; /* Consistent font family */
+  color: #5a5a5a; /* Uniform text color */
+  font-size: 14px; /* Standard font size */
+}
 .comment {
   display: flex;
   align-items: flex-start;
   margin: 20px 0;
+  position: relative; /* To correctly position the action menu */
+}
+
+.comment-details {
+  flex-grow: 1;
 }
 
 .comment img {
@@ -154,8 +164,89 @@
 }
 
 .comment-input {
-  border: 2px solid #5a5a5a;
+  background-color: #f9f9f9; /* Ensuring background color is white */
+  border: 2px solid transparent; /* Initially setting border to transparent */
   margin-right: 15px;
   padding: 8px 12px;
   border-radius: 25px;
+  width: 100%;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Smooth transitions */
+}
+.comment-edit-input {
+  background-color: #f9f9f9; /* Ensuring background color is white */
+  border: 2px solid transparent; /* Initially setting border to transparent */
+  border-radius: 25px;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Smooth transitions */
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #5a5a5a;
+}
+.comment-input:focus,
+.comment-edit-input:focus {
+  border: 2px solid transparent; /* Removes any border on focus */
+  outline: none; /* Removes the outline */
+  background-color: #f2f2f2; /* Light grey background when focused */
+}
+
+.button {
+  background-color: #ffffff; /* White background for buttons */
+  border-radius: 4rem;
+  padding-inline: 10px;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: none; /* Ensuring no border for buttons */
+  cursor: pointer;
+}
+
+.more-actions-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 20px; /* Adjust size as necessary */
+  position: absolute;
+  right: 10px; /* Adjusted to better position next to the content */
+  top: 10px;
+  border-radius: 50%; /* Makes the button round */
+  transition: background-color 0.3s, transform 0.3s;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.more-actions-button:active {
+  transform: scale(0.85); /* Shrinks the button slightly when clicked */
+  background-color: #e5e5e5e5; /* Light blue background on click */
+}
+
+.comment-actions {
+  display: inline-block;
+  align-items: center;
+  left: 0; /* Aligns dropdown directly under the 'More' button */
+  top: 100%; /* Position it right below the button */
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comment-actions button {
+  background-color: transparent;
+  color: #5a5a5a; /* Color similar to Bootstrap primary blue */
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.comment-actions button:hover {
+  border-radius: 6px;
+  background-color: #e5e5e5; /* Light grey background on hover */
+  border: none; /* Ensure border remains none even on hover */
 }
