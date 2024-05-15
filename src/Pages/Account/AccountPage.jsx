@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useResolvedPath } from 'react-router-dom';
+import background from '../../assets/login-bg.png';
+import userProfile from '../../assets/jack.png';
+
 import "./AccountPage.css"
 
 const AccountPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:2000/User-connected');
-        const userData = await response.json();
-        setUser(userData);
+        if (isLoggedIn == false){
+          const response = await fetch('http://localhost:2000/User-connected');
+          const userData = await response.json();
+          setUser(userData);
+          setIsLoggedIn(true);
+        }
       } catch (error) {
-        console.error('Erreur lors de la récupération des données utilisateur :', error);
+        navigate("/login")
       }
     };
-
     fetchUserData();
-  }, []); // Le tableau vide en second paramètre garantit que useEffect s'exécute uniquement une fois, après le rendu initial.
+  }, []);
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
     try {
       await fetch('http://localhost:2000/parameter/account', {
         method: 'POST',
@@ -33,23 +39,35 @@ const AccountPage = () => {
     } catch (error) {
       console.error('Erreur lors de la déconnexion :', error);
     }
-  };
+};
 
   return (
-    <div className="account-page">
-      <h1>Profil</h1>
-      <br></br>
-      {user && (
-        <div>
-          <p>Connecté en tant que : {user.userName}</p>
-          <br></br>
-          <p>Mail : { user.email}</p>
-          <br></br>
-          <p>Date de Création du Compte : { user.dateDeCreation }</p>
+    <div className="login" style={{ backgroundImage: `url(${background})` }}>
+      <form className="login__form">
+        <div className='profile_icon_position'>
+        <img src={userProfile} alt="Profile" className="user-icon" />
         </div>
-      )}
-      <br></br>
-      <button onClick={handleLogout}>Se déconnecter</button>
+        <br></br>
+        <h1 className='login__title'>Profil</h1>
+        <br></br>
+        {user && (
+          <div>
+            <div className='login_box'>
+              Connecté en tant que : {user.userName}
+            </div>
+            <br></br>
+            <div className='login_box'>
+              Mail  : { user.email}
+            </div>
+            <br></br>
+            <div className='login_box'>
+              Date de Création du Compte : { user.dateDeCreation }
+            </div>
+          </div>
+        )}
+        <br></br>
+        <button className='login__button' onClick={handleLogout}>Se déconnecter</button>
+      </form>
     </div>
   );
 };

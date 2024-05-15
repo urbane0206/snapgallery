@@ -1,111 +1,73 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Inscription.css';
+import background from '../../assets/login-bg.png';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-function Inscription() {
-  const navigate = useNavigate(); 
+const Inscription = () => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [userName, setUsername] = useState('');
+    const [nom, setFirstName] = useState('');
+    const [prenom, setLastName] = useState('');
+    const [dateDeNaissance, setDateOfBirth] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-  const [email, setEmail] = useState('');
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [nom, setNom] = useState('');
-  const [prenom, setPrenom] = useState('');
-  const [dateDeNaissance, setDateDeNaissance] = useState('');
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-  
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (email && userName && password && nom && prenom && dateNaissance) {
-      const data  = { userName , password , nom , prenom , dateDeNaissance ,email }
-      const response = await fetch('http://localhost:2000/login/create-account', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      if(response.ok){
-        navigate("/account")
-      }
-    } else {
-      alert("Veuillez remplir tous les champs requis !");
-    }
-  };
+        const data = { userName , password , nom , prenom , dateDeNaissance ,email };
+        try {
+            const response = await fetch('http://localhost:2000/login/create-account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
 
-  return (
-    <div className="Inscription">
-      <h2 className="Inscription__title">Inscription</h2>
-      <form className="Inscription__form" onSubmit={handleSubmit}>
-        <div className="Inscription__inputs">
-          <label htmlFor="email">Email:</label>
-          <input
-            className="Inscription__input"
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+            if (response.ok){
+                navigate("/account")
+            } 
+        } catch (error) {
+            console.error("Erreur lors de l'inscription :", error);
+        }
+    };
+
+    return (
+        <div className="login" style={{ backgroundImage: `url(${background})` }}>
+            <form onSubmit={handleSubmit} className="login__form">
+                <h1 className="login__title">Inscription</h1>
+                <div className="login__inputs">
+                    {/* Ajout des différents champs requis pour l'inscription */}
+                    <div className="login__box">
+                        <input type="email" placeholder="Email" required className="login__input" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <i className="ri-mail-fill"></i>
+                    </div>
+                    <div className="login__box">
+                        <input type="password" placeholder="Mot de passe" required className="login__input" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <i className="ri-lock-2-fill"></i>
+                    </div>
+                    <div className="login__box">
+                        <input type="text" placeholder="Pseudo" required className="login__input" value={userName} onChange={(e) => setUsername(e.target.value)} />
+                        <i className="ri-user-3-fill"></i>
+                    </div>
+                    <div className="login__box">
+                        <input type="text" placeholder="Nom" required className="login__input" value={prenom} onChange={(e) => setLastName(e.target.value)} />
+                    </div>
+                    <div className="login__box">
+                        <input type="text" placeholder="Prénom" required className="login__input" value={nom} onChange={(e) => setFirstName(e.target.value)} />
+                    </div>
+                    <div className="login__box">
+                        <input type="date" placeholder="Date de naissance" required className="login__input" value={dateDeNaissance} onChange={(e) => setDateOfBirth(e.target.value)} />
+                    </div>
+                </div>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <button type="submit" className="login__button">S'inscrire</button>
+            </form>
         </div>
-        <div className="Inscription__inputs">
-          <label htmlFor="pseudo">Pseudo:</label>
-          <input
-            className="Inscription__input"
-            type="text"
-            id="userName"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="Inscription__inputs">
-          <label htmlFor="password">Mot de passe:</label>
-          <input
-            className="Inscription__input"
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="Inscription__inputs">
-          <label htmlFor="nom">Nom:</label>
-          <input
-            className="Inscription__input"
-            type="text"
-            id="nom"
-            value={nom}
-            onChange={(e) => setNom(e.target.value)}
-            required
-          />
-        </div>
-        <div className="Inscription__inputs">
-          <label htmlFor="prenom">Prénom:</label>
-          <input
-            className="Inscription__input"
-            type="text"
-            id="prenom"
-            value={prenom}
-            onChange={(e) => setPrenom(e.target.value)}
-            required
-          />
-        </div>
-        <div className="Inscription__inputs">
-          <label htmlFor="dateNaissance">Date de naissance:</label>
-          <input
-            className="Inscription__input"
-            type="date"
-            id="dateNaissance"
-            value={dateDeNaissance}
-            onChange={(e) => setDateDeNaissance(e.target.value)}
-            required
-          />
-        </div>
-        <button className="Inscription__button" type="submit">S'inscrire</button>
-      </form>
-    </div>
-  );
-}
+    );
+};
 
 export default Inscription;
