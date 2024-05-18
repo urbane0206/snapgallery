@@ -56,6 +56,22 @@ const DisplayImage = () => {
             });
     };
 
+    const handleDislike = (commentId) => {
+        axios.post(`http://localhost:5000/comments/${commentId}/dislike`)
+            .then(response => {
+                const updatedComments = comments.map(comment => {
+                    if (comment.id === response.data.id) {
+                        return { ...comment, dislikes: response.data.dislikes }; // Update with the new dislikes count
+                    }
+                    return comment;
+                });
+                setComments(updatedComments);
+            })
+            .catch(error => {
+                console.error('Error disliking the comment:', error);
+            });
+    };
+
     const fetchCommentsCount = async () => {
         axios.get('http://localhost:5000/comments/count')
             .then(response => {
@@ -171,7 +187,8 @@ const DisplayImage = () => {
                             <div className="comment-action">
                                 <img src={like} alt="Like" onClick={() => handleLike(comment.id)} />
                                 <span>{comment.likes}</span>
-                                <img src={dislike} alt="Dislike" />
+                                <img src={dislike} alt="Dislike" onClick={() => handleDislike(comment.id)} />
+                                <span>{comment.dislikes}</span>
                             </div>
                             <button
                                 className="more-actions-button"
