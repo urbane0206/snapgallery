@@ -1,5 +1,5 @@
 # Projet Dev Web
-Dans ce projet, il y a Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Floris FALELAVAKI
+Dans ce projet, il y a Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Floris FALELAVAKI, 
 Nicolas MARIE-CATHERINE et Jo-Michel UTO
 
 ## Introduction
