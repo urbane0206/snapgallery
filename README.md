@@ -18,7 +18,7 @@ Comme Base de Données, on utilise MongoDB avec Docker, voici la commande de cr�
 `docker run --name mon_container_mongodb -d -p 27017:27017 mongo`
 
 ### c) Commande de lancement
-`cd Authentification`
+`cd Authentification`;
 `java -jar target/Authentification-0.0.1-SNAPSHOT.jar`
 ou ouvrir une nouvelle page comme dossier source Authentification,
 puis cliquer sur play le fichier "AuthentificationApplication".
@@ -33,8 +33,22 @@ Dès que vous êtes connecté, cela renvoie sur http://localhost:5173/account av
 ![Compte](Z-images_explicatives\compte_connecte.png)
 
 ## 2. Partie Images
+### a) Installation des librairies
+Il faut importer cors, espress, multer, fs avant de lancer le code
+
+### b) Lancer le code
+`cd Image_NodeJS`
+`node gestion_Image.js`
 
 ## 3. Partie Commentaires
+
+### a) Installation des librairies
+Il faut importer Flask, SQLALchemy avant de lancer le code
+
+### b) Lancer le code
+`cd Commentaires`
+`python commentaires.py`
+
 
 ## 4. Partie Docker
 
