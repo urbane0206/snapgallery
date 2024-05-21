@@ -1,22 +1,16 @@
 package com.example.Authentification;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +29,7 @@ public class AccountController {
     @Autowired
     private AccountRepository repository;
 
-   ////Création d'un compte et Connexion (si nouveau compte)
+   //Création d'un compte et Connexion (si nouveau compte)
 
    @PostMapping("/login/create-account")
    public ResponseEntity<String> Authentification(@RequestBody Account account){
@@ -50,7 +44,7 @@ public class AccountController {
        }
    }
 
-   /// Connexion à un compte déjà existant
+   //Connexion à un compte déjà existant
 
    @PostMapping("/login")
    public ResponseEntity<Account> Login(@RequestBody Account account){
@@ -68,7 +62,7 @@ public class AccountController {
 
 
 
-   /// Connexion ou inscription avec des infos Github
+   //Connexion ou inscription avec des infos Github
 
    @PostMapping("/connect-by-github")
    public ResponseEntity<Account> ConnexionByGithub(@RequestBody Account account){
@@ -90,7 +84,7 @@ public class AccountController {
     
    }
 
-   /// Deconnexion d'un compte
+   //Deconnexion d'un compte
 
    @PostMapping("/parameter/account")
    public ResponseEntity<String> Deconnection(@RequestBody Account account){
@@ -107,13 +101,13 @@ public class AccountController {
        }
    }
 
-   /// Avoir les informations d'un compte
+   //Avoir les informations d'un compte
 
    @GetMapping("/{userName}")
    public Account getAccountByUserName(@PathVariable("userName") String userName){
        return repository.findByuserName(userName);
    }
-   /// Avoir tout les comptes déjà crées
+   //Avoir tout les comptes déjà crées
 
    @GetMapping("/all-account")
    public List<Account> AllAccount(){

@@ -173,7 +173,7 @@ const Login = () => {
           </span>
         </button>
         <div className="login__register">
-          Don't have an account? <Link to="/Inscription">Registerr</Link>
+          Don't have an account? <Link to="/Inscription">Register</Link>
         </div>
       </form>
 
