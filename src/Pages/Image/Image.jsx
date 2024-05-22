@@ -32,7 +32,8 @@ const Image = () => {
             imageUrl={imageDetails.filePath}
             title={imageDetails.title}
             description={imageDetails.description}
-            uploadDate={imageDetails.uploadDate}  // Assuming the date is stored in 'uploadDate'
+            uploadDate={imageDetails.uploadDate}
+            userId={imageDetails.userId}  
           />
         ) : <p>Loading...</p>}
         <Recommended/>

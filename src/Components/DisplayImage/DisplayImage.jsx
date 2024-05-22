@@ -10,7 +10,7 @@ import user_profile from '../../assets/user_profile.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-const DisplayImage = ({ imageUrl, title, description, uploadDate }) => {
+const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
     const formattedDate = new Date(uploadDate).toLocaleDateString("fr-FR", {
         year: 'numeric', month: 'long', day: 'numeric'
     });
@@ -137,22 +137,22 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate }) => {
             <img className='Displayed-img' src={imageUrl} alt={title} />
             <h3>{title}</h3>
             <div className='show-image-info'>
-                <p>1525 Views &bull; {formattedDate}</p>
+                <p>1525 Vues &bull; {formattedDate}</p>
                 <div>
                     <span><img src={like} alt="" /> 125</span>
                     <span><img src={dislike} alt="" />0</span>
-                    <span><img src={share} alt="" /> Share</span>
-                    <span><img src={save} alt="" /> Save</span>
+                    <span><img src={share} alt="" />Partager</span>
+                    <span><img src={save} alt="" />Enregistrer</span>
                 </div>
             </div>
             <hr />
             <div className='publisher'>
                 <img src={jack} alt="" />
                 <div>
-                    <p>Channel Name</p>
-                    <span>100K Subscribers</span>
+                    <p>Utilisateur N° {userId}</p>
+                    <span>2285 abonnés</span>
                 </div>
-                <button>Subscribe</button>
+                <button>S'abonner</button>
             </div>
             <div className="img-description">
                 <div className="description-container">
