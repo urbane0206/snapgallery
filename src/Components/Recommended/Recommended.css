@@ -1,24 +1,47 @@
-.recommended{
-    flex-basis: 25%;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+:root {
+  --body-font: "Poppins", sans-serif;
+  --normal-font-size: 1rem;
 }
 
-.side-video-list{
+.recommended {
+  flex-basis: 15%;
+}
+
+.side-video-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  margin-bottom: 12px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 10px; 
+}
+
+.side-video-list img {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-
-.side-video-list img{
-    flex-basis: 49%;
-    width: 50%;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    width: auto;
+    margin-bottom: 5px;
     border-radius: 12px;
 }
 
-.vid-info{
-    flex-basis: 49%;
+.vid-info {
+  flex-basis: 49%;
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 
-.vid-info h4{
-    font-size: 13px;
-    margin-bottom: 5px;
+.vid-info h4 {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+
+.vid-info p {
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
 }

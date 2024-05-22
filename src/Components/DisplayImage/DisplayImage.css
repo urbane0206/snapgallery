@@ -1,14 +1,18 @@
 .Displayed-img {
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 68vh;
+  width: auto;
+  margin: auto;
 }
 
 .show-image {
-  flex-basis: 74%;
+  flex-basis: 84%;
 }
 
-.show-image img {
-  width: 100%;
-}
+
 
 .show-image h3 {
   margin-top: 10px;

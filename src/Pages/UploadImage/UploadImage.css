@@ -22,6 +22,11 @@ button {
   font-size: var(--normal-font-size);
 }
 
+option,
+select {
+  background: transparent;
+}
+
 .upload {
   position: relative;
   height: 100vh;
@@ -70,6 +75,18 @@ button {
   outline: none;
 }
 
+.upload__select {
+  width: 100%;
+  height: 55px;
+  background: none;
+  background-color: transparent;
+  color: var(--white-color);
+  border: none;
+  outline: none;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+}
+
 .upload__button {
   width: 100%;
   padding: 1rem;
@@ -99,6 +116,17 @@ button {
     padding: 1rem;
     pointer-events: none;
 } 
+
+.upload__status {
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--white-color);
+}
+
+.upload__status.error {
+  color: red;
+}
+
 
 @media screen and (min-width: 576px) {
     .upload {

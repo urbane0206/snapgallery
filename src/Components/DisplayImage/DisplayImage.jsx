@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DisplayImage.css';
-import Image from '../../assets/DisplayedPicture.png';
 import like from '../../assets/like.png';
 import dislike from '../../assets/dislike.png';
 import share from '../../assets/share.png';
@@ -11,7 +10,13 @@ import user_profile from '../../assets/user_profile.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-const DisplayImage = () => {
+const DisplayImage = ({ imageUrl, title, description, uploadDate }) => {
+    const formattedDate = new Date(uploadDate).toLocaleDateString("fr-FR", {
+        year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+
+
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [commentsCount, setCommentsCount] = useState(0);
@@ -129,10 +134,10 @@ const DisplayImage = () => {
 
     return (
         <div className='show-image'>
-            <img className='Displayed-img' src={Image} alt="" />
-            <h3>Image Description</h3>
+            <img className='Displayed-img' src={imageUrl} alt={title} />
+            <h3>{title}</h3>
             <div className='show-image-info'>
-                <p>1525 Views &bull; 2days ago</p>
+                <p>1525 Views &bull; {formattedDate}</p>
                 <div>
                     <span><img src={like} alt="" /> 125</span>
                     <span><img src={dislike} alt="" />0</span>
@@ -151,7 +156,7 @@ const DisplayImage = () => {
             </div>
             <div className="img-description">
                 <div className="description-container">
-                    <p>Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>{description}</p>
                 </div>
                 <hr />
                 <form onSubmit={handleSubmit} className="comment-form">

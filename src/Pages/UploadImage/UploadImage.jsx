@@ -1,59 +1,85 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import './UploadImage.css'; // Assurez-vous que le chemin est correct
 import background from '../../assets/login-bg.png';
+import { useAuth } from '../../auth/AuthContext'; // Importez le contexte d'authentification
 
 const UploadImage = () => {
+  const { user } = useAuth(); // Obtenez l'utilisateur connecté du contexte
   const [file, setFile] = useState(null);
-  const [isDragOver, setIsDragOver] = useState(false); // Nouvel état pour gérer le survol
-  const fileInputRef = useRef(null);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState(''); // État pour le message de confirmation
+  const [formData, setFormData] = useState({
+    titre: '',
+    categorie: '', // Valeur par défaut vide ou une catégorie par défaut
+    description: ''
+  });
+  const fileInputRef = useRef();
 
-  const handleDragOver = useCallback((event) => {
+  const handleDragOver = (event) => {
     event.preventDefault();
-    setIsDragOver(true); // Met à jour l'état lorsque un fichier est glissé sur la zone
-  }, []);
+    setIsDragOver(true);
+  };
 
-  const handleDragLeave = useCallback((event) => {
-    event.preventDefault();
-    setIsDragOver(false); // Réinitialise l'état lorsque le fichier quitte la zone
-  }, []);
+  const handleDragLeave = () => {
+    setIsDragOver(false);
+  };
 
-  const handleDrop = useCallback((event) => {
+  const handleDrop = (event) => {
     event.preventDefault();
-    if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-      setFile(event.dataTransfer.files[0]);
-    }
-    setIsDragOver(false); // Réinitialise l'état après le dépôt du fichier
-  }, []);
+    setIsDragOver(false);
+    const droppedFile = event.dataTransfer.files[0];
+    setFile(droppedFile);
+  };
 
   const handleClick = () => {
     fileInputRef.current.click();
   };
 
   const handleChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!file) {
-      alert("Veuillez sélectionner un fichier à uploader ou glissez un fichier ici.");
+      setUploadStatus('Please select a file to upload');
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", file);
+    const data = new FormData();
+    data.append('userId', user.id);
+    data.append('title', formData.titre);
+    data.append('category', formData.categorie);
+    data.append('description', formData.description);
+    data.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:2001/upload', {
+      const response = await fetch('http://localhost:3000/upload', {
         method: 'POST',
-        body: formData,
+        body: data
       });
-      const responseData = await response.json();
-      console.log(responseData);
-      alert("Fichier uploadé avec succès!");
+
+      if (response.ok) {
+        setUploadStatus('Image ajoutée avec succès!');
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 200);
+      } else {
+        setUploadStatus('Failed to upload image');
+      }
     } catch (error) {
-      console.error('Erreur lors de l\'upload du fichier :', error);
+      console.error('Error uploading image:', error);
+      setUploadStatus('An error occurred while uploading the image');
     }
   };
 
@@ -62,7 +88,7 @@ const UploadImage = () => {
       <form onSubmit={handleSubmit} className="upload__form">
         <h1 className="upload__title">Upload File</h1>
 
-        <div 
+        <div
           className={`upload__input-wrapper ${isDragOver ? 'drag-over' : ''}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -77,12 +103,12 @@ const UploadImage = () => {
             style={{ display: 'none' }}
           />
           <label htmlFor="file-upload" className="upload__drag-area">
-            Glissez et déposez un fichier ici ou cliquez pour sélectionner un fichier
+            Drag and drop a file here or click to select a file
             {file && (
-                <div class="image-preview">
-                  <h3>Image sélectionnée :</h3>
-                  <img src={URL.createObjectURL(file)} alt="Uploaded" class="uploaded-image" />
-                </div>
+              <div className="image-preview">
+                <h3>Selected Image:</h3>
+                <img src={URL.createObjectURL(file)} alt="Uploaded" className="uploaded-image" />
+              </div>
             )}
           </label>
           <i className="ri-upload-cloud-2-fill"></i>
@@ -94,15 +120,9 @@ const UploadImage = () => {
                 className="login__input"
                 type="text" 
                 name="titre"
-                placeholder="Titre de l'image"
-            />
-          </div>
-          <div className="login__box">
-            <input 
-                className="login__input"
-                type="text" 
-                name="categorie"
-                placeholder="Catégorie de l'image"
+                placeholder="Image Title"
+                value={formData.titre}
+                onChange={handleInputChange}
             />
           </div>
           <div className="login__box">
@@ -110,18 +130,38 @@ const UploadImage = () => {
                 className="login__input"
                 type="text" 
                 name="description"
-                placeholder="Description de l'image"
+                placeholder="Image Description"
+                value={formData.description}
+                onChange={handleInputChange}
             />
           </div>
-
+          <div className="login__box">
+            <select 
+                className="upload__select"
+                name="categorie"
+                value={formData.categorie}
+                onChange={handleInputChange}
+            >
+              <option className="upload__option" value="">Select Category</option>
+              <option className="upload__option" value="Home">Home</option>
+              <option className="upload__option" value="Music">Music</option>
+              <option className="upload__option" value="Gaming">Gaming</option>
+              <option className="upload__option" value="Automobiles">Automobiles</option>
+              <option className="upload__option" value="Sports">Sports</option>
+              <option className="upload__option" value="Entertainment">Entertainment</option>
+              <option className="upload__option" value="Technology">Technology</option>
+              <option className="upload__option" value="Blogs">Blogs</option>
+              <option className="upload__option" value="News">News</option>
+            </select>
+          </div>
         </div>
 
         <button type="submit" className="upload__button">Upload</button>
+
+        {uploadStatus && <p className="upload__status">{uploadStatus}</p>}
       </form>
     </div>
   );
 };
-
-
 
 export default UploadImage;

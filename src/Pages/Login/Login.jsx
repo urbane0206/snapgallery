@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login.css'; 
 import background from '../../assets/login-bg.png'; 
 import GitHub_logo from '../../assets/Github_logo.png';
-import { default as axios } from 'axios';
-import { Link ,useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';  // Importer le contexte d'authentification
 
 const CLIENT_ID = "Ov23likhB2rCIFONu2Wq";
-const CLIENT_SECRET = "712c6b35b179fdfaa3a69dea563d97f1b4bf4498"
-const REDIRECT_URI = "http://localhost:5173/login"
+const CLIENT_SECRET = "712c6b35b179fdfaa3a69dea563d97f1b4bf4498";
+const REDIRECT_URI = "http://localhost:5173/login";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { setUser } = useAuth();  // Utiliser le contexte d'authentification
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [redirectToAccount, setRedirectToAccount] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,30 +32,32 @@ const Login = () => {
         body: JSON.stringify(data)
       });
 
-      if (response.status === 401){
+      if (response.status === 401) {
         setErrorMessage("Identifiants incorrects. Veuillez réessayer.");
-      } else if (response.status === 200){
+      } else if (response.status === 200) {
         const responseData = await response.json();
-        navigate('/account');
+        setUser(responseData);  // Mettre à jour l'état de l'utilisateur
+        localStorage.setItem('user', JSON.stringify(responseData));  // Stocker l'utilisateur dans localStorage
+        navigate('/');  // Rediriger vers la page d'accueil
       }
     } catch (error) {
       console.error('Erreur lors de la soumission du formulaire :', error);
     }
   };
 
-
   const loginWithGithub = (event) => {
     event.preventDefault();
     window.location.assign(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`);
   };
 
-
   const connectByGithub = async (compte) => {
-    const { mail, login } = compte;
+    const { email, login } = compte;
     try {
-      const response = await axios.post('http://localhost:2000/connect-by-github', { mail, userName: login });
+      const response = await axios.post('http://localhost:2000/connect-by-github', { email, userName: login });
       if (response.status === 200) {
-        navigate("/account");
+        setUser(response.data);  // Mettre à jour l'état de l'utilisateur
+        localStorage.setItem('user', JSON.stringify(response.data));  // Stocker l'utilisateur dans localStorage
+        navigate('/');  // Rediriger vers la page d'accueil
       } else {
         console.error("Erreur:", response.status);
       }
@@ -73,7 +77,6 @@ const Login = () => {
       if (response.ok) {
         const userInfo = await response.json();
         console.log("Informations utilisateur:", userInfo);
-        // Si les informations utilisateur sont obtenues avec succès, appelle connectByGithub
         if (userInfo) {
           await connectByGithub(userInfo);
         }
@@ -103,7 +106,7 @@ const Login = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (code) {
@@ -111,7 +114,6 @@ const Login = () => {
       recupToken(code);
     }
   }, []);
-
 
   return (
     <div className="login" style={{ backgroundImage: `url(${background})` }}>
@@ -142,14 +144,9 @@ const Login = () => {
             />
             <i className="ri-lock-2-fill"></i>
           </div>
-          <br></br>
+          <br />
         </div>
-        {errorMessage && <div className="error-message">{errorMessage}
-        </div>}
-        <div>
-        {redirectToAccount && <Redirect to="/account" />}
-        </div>
-
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <div className="login__check">
           <div className="login__check-box">
             <input
@@ -176,8 +173,6 @@ const Login = () => {
           Don't have an account? <Link to="/Inscription">Register</Link>
         </div>
       </form>
-
-
     </div>
   );
 };

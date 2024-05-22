@@ -2,32 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import background from '../../assets/login-bg.png';
 import userProfile from '../../assets/jack.png';
-
 import "./AccountPage.css";
+import { useAuth } from '../../auth/AuthContext';
 
 const AccountPage = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, setUser, logout } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (!isLoggedIn) {
-          const response = await fetch('http://localhost:2000/User-connected');
+        const response = await fetch('http://localhost:2000/User-connected');
+        if (response.ok) {
           const userData = await response.json();
           setUser(userData);
-          setIsLoggedIn(true);
+        } else {
+          navigate("/login");
         }
       } catch (error) {
+        console.error('Erreur lors de la récupération des données utilisateur :', error);
         navigate("/login");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUserData();
-  }, [isLoggedIn]); // Ajusté pour inclure isLoggedIn comme dépendance si nécessaire
+  }, [setUser, navigate]);
 
   const handleLogout = async (event) => {
-    event.preventDefault(); // Pour empêcher le rechargement de la page
+    event.preventDefault();
     try {
       await fetch('http://localhost:2000/parameter/account', {
         method: 'POST',
@@ -36,11 +40,16 @@ const AccountPage = () => {
         },
         body: JSON.stringify({ userName: user.userName })
       });
+      logout(); // Mise à jour de l'état global
       navigate("/login");
     } catch (error) {
       console.error('Erreur lors de la déconnexion :', error);
     }
   };
+
+  if (isLoading) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <div className="login" style={{ backgroundImage: `url(${background})` }}>

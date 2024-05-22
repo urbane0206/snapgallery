@@ -1,0 +1,55 @@
+.category-feed {
+    padding: 20px;
+  }
+  
+  .category-feed h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Augmenter la largeur minimale des colonnes */
+    gap: 20px;
+  }
+  
+  .grid-item {
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    width: 100%; /* Assurer que les items remplissent leurs colonnes */
+    height: auto; /* Définir la hauteur des grid items */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  .grid-item img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: auto;
+    margin: auto;
+    border-radius: 12px;
+  }
+  
+  .image-info {
+    padding: 10px;
+    flex: 1; /* Permet à l'information de l'image de remplir l'espace restant */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement le contenu */
+  }
+  
+  .image-info h2 {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .image-info p {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
