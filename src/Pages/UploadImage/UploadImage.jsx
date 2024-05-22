@@ -143,7 +143,6 @@ const UploadImage = () => {
                 onChange={handleInputChange}
             >
               <option className="upload__option" value="">Select Category</option>
-              <option className="upload__option" value="Home">Home</option>
               <option className="upload__option" value="Music">Music</option>
               <option className="upload__option" value="Gaming">Gaming</option>
               <option className="upload__option" value="Automobiles">Automobiles</option>
