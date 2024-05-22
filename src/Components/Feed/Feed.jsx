@@ -29,7 +29,7 @@ const Feed = () => {
           <img src={image.filePath} alt={image.title} />
           <h2>{image.description}</h2>
           <h3>{image.owner} - {image.category}</h3>
-          <p>{image.views} views &bull; {new Date(image.uploadDate).toLocaleDateString()}</p>
+          <p>Date: {new Date(image.uploadDate).toLocaleDateString()}</p>
         </Link>
       ))}
     </div>
