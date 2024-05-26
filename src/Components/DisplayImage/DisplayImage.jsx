@@ -149,7 +149,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
             <div className='publisher'>
                 <img src={jack} alt="" />
                 <div>
-                    <p>Utilisateur N° {userId}</p>
+                    <p>{userId}</p>
                     <span>2285 abonnés</span>
                 </div>
                 <button>S'abonner</button>
