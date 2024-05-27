@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=snapgallery
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=userpassword
+    volumes:
+      - db_data:/var/lib/mysql
+
+  gestion-image-service:
+    build: 
+      context: ./Gestion_Image
+      dockerfile: Dockerfile-gestion-image
+    container_name: image_service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=user
+      - DB_PASSWORD=userpassword
+      - DB_NAME=snapgallery
+    volumes:
+      - ./Gestion_Image:/app
+
+  vite:
+    build:
+      context: .
+      dockerfile: Dockerfile-vite 
+    container_name: vite
+    ports:
+      - "5173:5173"
+    environment:
+      - HOST=0.0.0.0
+      
+volumes:
+  db_data:

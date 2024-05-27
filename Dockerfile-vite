@@ -1,0 +1,21 @@
+# Utiliser l'image officielle Node.js comme base
+FROM node:latest
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier package.json et package-lock.json dans le répertoire de travail
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le code source dans le répertoire de travail
+COPY . .
+
+# Exposer le port 5173 pour le conteneur
+EXPOSE 5173 
+
+ENV HOST = 0.0.0.0
+# Commande à exécuter lors du démarrage du conteneur
+CMD ["npm", "run", "dev"]
