@@ -73,3 +73,5 @@ Il faut importer Flask, SQLALchemy avant de lancer le code
 
 ## 4. Partie Docker
 
+lancer l'appication complète :
+`docker-compose up --build`
