@@ -75,3 +75,5 @@ Il faut importer Flask, SQLALchemy avant de lancer le code
 
 lancer l'appication complète :
 `docker-compose up --build`
+
+Une fois les conteneurs lancés , l'application sera disponible sur : `http://locahost:5173`
