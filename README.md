@@ -76,7 +76,9 @@ Il faut importer Flask, SQLALchemy avant de lancer le code
 Un fichier docker-compose.yml a été créé dans le but lancer l'application sans avoir à installer touts les pré-requis sur notre ordinateur. Ce fichier va créé un conteneur pour chaque service de l'application et installer toutes les dépendances dont ils  ont besoins pour fonctionner correctement.
 
 
-Pour lancer l'appication , on utilise la commande : `docker-compose up --build`
-Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : `http://locahost:5173`
+Pour lancer l'appication , on se met a la racine du projet puis dans un terminale on utilise la commande : `docker-compose up --build`.
+ - Exemple : Mon/Chemine/snapgallery> docker-compose up --build.
+
+Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : http://locahost:517
 
 
