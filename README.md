@@ -73,7 +73,10 @@ Il faut importer Flask, SQLALchemy avant de lancer le code
 
 ## 4. Partie Docker
 
-lancer l'appication complète :
-`docker-compose up --build`
+Un fichier docker-compose.yml a été créé dans le but lancer l'application sans avoir à installer touts les pré-requis sur notre ordinateur. Ce fichier va créé un conteneur pour chaque service de l'application et installer toutes les dépendances dont ils  ont besoins pour fonctionner correctement.
 
-Une fois les conteneurs lancés , l'application sera disponible sur : `http://locahost:5173`
+
+Pour lancer l'appication , on utilise la commande : `docker-compose up --build`
+Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : `http://locahost:5173`
+
+
