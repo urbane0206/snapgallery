@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
 # Configuration pour utiliser PostgreSQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@commentaire_db:5432/CommentaireDB'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:10001/CommentaireDB'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -56,10 +56,7 @@ class Comment(db.Model):
         }        
 @app.before_request
 def create_tables():
-    # The following line will remove this handler, making it
-    # only run on the first request
     app.before_request_funcs[None].remove(create_tables)
-
     db.create_all()
 
 @app.after_request
@@ -70,7 +67,7 @@ def after_request(response):
 
 @app.route('/')
 def home():
-    return jsonify({'message': 'Welcome to the Comment API!'})
+    return jsonify({'message': "Bienvenue sur l'API des Commentaires!"})
 
 @app.route('/comments', methods=['POST'])
 def create_comment():
@@ -112,18 +109,30 @@ def get_comments_by_image(image_url):
 def update_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     data = request.json
+    current_user_id = request.json.get('user_id')  # Assurez-vous d'obtenir l'ID de l'utilisateur authentifié
+
+    if comment.user_id != current_user_id:
+        return jsonify({"error": "You can only edit your own comments"}), 403
+
     if 'content' in data:
         comment.content = data['content']
         db.session.commit()
         return jsonify(comment.to_dict()), 200
     return jsonify({"error": "Content is required"}), 400
 
+
 @app.route('/comments/<int:comment_id>', methods=['DELETE'])
 def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
+    current_user_id = request.json.get('user_id')  # Assurez-vous d'obtenir l'ID de l'utilisateur authentifié
+
+    if comment.user_id != current_user_id:
+        return jsonify({"error": "You can only delete your own comments"}), 403
+
     db.session.delete(comment)
     db.session.commit()
     return jsonify({'message': 'Comment deleted'}), 200
+
 
 @app.route('/comments/by-image/<path:image_url>/count', methods=['GET'])
 def get_comments_count_by_image(image_url):
@@ -195,4 +204,4 @@ def get_dislikes(comment_id):
     return jsonify({'dislikes': comment.dislikes})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=True)
+    app.run(debug=True)

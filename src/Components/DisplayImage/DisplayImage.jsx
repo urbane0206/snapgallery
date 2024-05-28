@@ -69,8 +69,12 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(response);
             const updatedComments = comments.map(comment => {
+                console.log(
+                    "User ID du commentaire par rapport à comment", comment.user_id, "\n",
+                    "User ID du commentaire: ", response.data.user_id, "\n",
+                    "User ID conneter: ", user.user.id, "\n",
+                );
                 if (comment.id === response.data.id) {
                     const likedByUser = !comment.liked_by_user;
                     const dislikes = likedByUser && comment.disliked_by_user ? comment.dislikes - 1 : comment.dislikes;
@@ -139,7 +143,10 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
 
     const handleUpdateComment = async (commentId) => {
         try {
-            const response = await axios.put(`http://localhost:5000/comments/${commentId}`, { content: editingContent });
+            const response = await axios.put(`http://localhost:5000/comments/${commentId}`, {
+                content: editingContent,
+                user_id: user.user.id  // Inclure l'ID de l'utilisateur
+            });
             setComments(prevComments => prevComments.map(comment =>
                 comment.id === commentId ? { ...comment, ...response.data } : comment
             ));
@@ -151,7 +158,9 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
 
     const handleDelete = async (commentId) => {
         try {
-            await axios.delete(`http://localhost:5000/comments/${commentId}`);
+            await axios.delete(`http://localhost:5000/comments/${commentId}`, {
+                data: { user_id: user.user.id }  // Inclure l'ID de l'utilisateur
+            });
             setComments(prevComments => prevComments.filter(comment => comment.id !== commentId));
             setCommentsCount(prevCount => prevCount - 1);
         } catch (error) {
@@ -233,28 +242,32 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
                                 <span>{comment.dislikes}</span>
                             </div>
 
-                            <button
-                                className="more-actions-button"
-                                onClick={() => setVisibleActionCommentId(visibleActionCommentId === comment.id ? null : comment.id)}
-                            >
-                                ⋮
-                            </button>
-                            {visibleActionCommentId === comment.id && (
-                                <div className='comment-actions'>
-                                    {editingCommentId === comment.id ? (
-                                        <>
-                                            <button onClick={() => handleUpdateComment(comment.id)}>Sauvegarder</button>
-                                            <button onClick={() => setEditingCommentId(null)}>Annuler</button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button onClick={() => { setEditingCommentId(comment.id); setEditingContent(comment.content); }}>Modifier</button>
-                                            <button onClick={() => handleDelete(comment.id)}>
-                                                <FontAwesomeIcon icon={faTrashCan} />
-                                            </button>
-                                        </>
+                            {comment.user_id == user.user.id && ( // Afficher les actions seulement pour l'auteur du commentaire
+                                <>
+                                    <button
+                                        className="more-actions-button"
+                                        onClick={() => setVisibleActionCommentId(visibleActionCommentId === comment.id ? null : comment.id)}
+                                    >
+                                        ⋮
+                                    </button>
+                                    {visibleActionCommentId === comment.id && (
+                                        <div className='comment-actions'>
+                                            {editingCommentId === comment.id ? (
+                                                <>
+                                                    <button onClick={() => handleUpdateComment(comment.id)}>Sauvegarder</button>
+                                                    <button onClick={() => setEditingCommentId(null)}>Annuler</button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button onClick={() => { setEditingCommentId(comment.id); setEditingContent(comment.content); }}>Modifier</button>
+                                                    <button onClick={() => handleDelete(comment.id)}>
+                                                        <FontAwesomeIcon icon={faTrashCan} />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
                                     )}
-                                </div>
+                                </>
                             )}
                         </div>
                     </div>
