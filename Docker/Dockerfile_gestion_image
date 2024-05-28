@@ -5,16 +5,21 @@ FROM node:14
 WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
-COPY package*.json ./
+COPY Gestion_Image/package*.json ./
+COPY Gestion_Image/app.cjs ./
 
 # Installer les dépendances
 RUN npm install
+RUN npm install express -g
 
 # Copier tous les fichiers du projet dans le répertoire de travail
 COPY . .
+
+COPY Gestion_Image/wait-for-it.sh ./
+RUN chmod +x wait-for-it.sh
 
 # Exposer le port sur lequel le serveur Node.js va s'exécuter
 EXPOSE 3000
 
 # Commande pour démarrer l'application
-CMD ["node", "app.js"]
+CMD ["./wait-for-it.sh", "gestion-image-db:3306", "--", "node", "app.cjs"]
