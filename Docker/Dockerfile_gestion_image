@@ -1,12 +1,18 @@
 # Définir l'image de base
 FROM node:14
 
+# Installer dos2unix
+RUN apt-get update && apt-get install -y dos2unix
+
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
 COPY Gestion_Image/package*.json ./
 COPY Gestion_Image/app.cjs ./
+
+# Convertir les fichiers pour éviter les problèmes de fin de ligne
+RUN dos2unix package*.json app.cjs
 
 # Installer les dépendances
 RUN npm install
@@ -16,6 +22,7 @@ RUN npm install express -g
 COPY . .
 
 COPY Gestion_Image/wait-for-it.sh ./
+RUN dos2unix wait-for-it.sh
 RUN chmod +x wait-for-it.sh
 
 # Exposer le port sur lequel le serveur Node.js va s'exécuter

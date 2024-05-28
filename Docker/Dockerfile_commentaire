@@ -13,6 +13,7 @@ RUN pip install flask
 RUN pip install flask_sqlalchemy
 RUN pip install flask_cors
 RUN pip install psycopg2
+RUN pip install flask_migrate
 
 # Expose le port sur lequel l'application Flask va écouter
 EXPOSE 5000
