@@ -27,16 +27,16 @@ const Image = () => {
 
   return (
     <div className='play-container' style={{ display: 'flex', flexDirection: 'row' }}>
-        {imageDetails ? (
-          <DisplayImage
-            imageUrl={imageDetails.filePath}
-            title={imageDetails.title}
-            description={imageDetails.description}
-            uploadDate={imageDetails.uploadDate}
-            userId={imageDetails.userId}  
-          />
-        ) : <p>Loading...</p>}
-        <Recommended/>
+      {imageDetails ? (
+        <DisplayImage
+          imageUrl={imageDetails.filePath}
+          title={imageDetails.title}
+          description={imageDetails.description}
+          uploadDate={imageDetails.uploadDate}
+          userId={imageDetails.userId}
+        />
+      ) : <p>Loading...</p>}
+      <Recommended />
     </div>
   );
 }

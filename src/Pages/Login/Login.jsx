@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './Login.css'; 
-import background from '../../assets/login-bg.png'; 
+import './Login.css';
+import background from '../../assets/login-bg.png';
 import GitHub_logo from '../../assets/Github_logo.png';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';  // Importer le contexte d'authentification
 
 const CLIENT_ID = "Ov23likhB2rCIFONu2Wq";
@@ -12,7 +12,6 @@ const REDIRECT_URI = "http://localhost:5173/login";
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { setUser } = useAuth();  // Utiliser le contexte d'authentification
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -170,7 +169,7 @@ const Login = () => {
           </span>
         </button>
         <div className="login__register">
-          Don't have an account? <Link to="/Inscription">Register</Link>
+          Don&apos;t have an account? <Link to="/Inscription">Register</Link>
         </div>
       </form>
     </div>

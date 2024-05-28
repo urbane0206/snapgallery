@@ -2,7 +2,7 @@ package com.example.Authentification;
 
 import org.springframework.data.annotation.Id;
 
-public class Account{
+public class Account {
 
     @Id
     public String id;
@@ -15,14 +15,16 @@ public class Account{
     public String email;
     public boolean online;
 
-    public Account(){}
+    public Account() {
+    }
 
-    public Account(String id, String userName, String password, String dateDeCreation, String email , boolean online , String nom , String prenom , String dateDeNaissance) {
+    public Account(String id, String userName, String password, String dateDeCreation, String email, boolean online,
+            String nom, String prenom, String dateDeNaissance) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.dateDeCreation = dateDeCreation;
-        this.email = email ;
+        this.email = email;
         this.nom = nom;
         this.prenom = prenom;
         this.dateDeNaissance = dateDeNaissance;
@@ -33,13 +35,8 @@ public class Account{
         return this.userName;
     }
 
-    public void setOnline() {
-        if (this.online == true) {
-            this.online = false;
-        }
-        else{
-            this.online = true;
-        }
+    public void setOnline(boolean status) {
+        this.online = status;
     }
 
 }

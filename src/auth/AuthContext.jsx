@@ -10,26 +10,29 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const checkUserConnected = async () => {
-      try {
-        const response = await fetch('http://localhost:2000/User-connected');
-        const userData = await response.json();
-        if (response.ok && userData) {
-          setUser(userData);
-          localStorage.setItem('user', JSON.stringify(userData));
-        } else {
-          setUser(null);
-          localStorage.removeItem('user');
-        }
-      } catch (error) {
-        console.error('Failed to fetch user data:', error);
+    checkUserConnected();
+  }, []);
+
+  const checkUserConnected = async () => {
+    try {
+      const response = await fetch('http://localhost:2000/User-connected');
+      let userData;
+      if (response.statusCode === 200) {
+        userData = await response.json();
+      }
+      if (response.ok && userData) {
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+      } else {
         setUser(null);
         localStorage.removeItem('user');
       }
-    };
-
-    checkUserConnected();
-  }, []);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+      setUser(null);
+      localStorage.removeItem('user');
+    }
+  };
 
   const logout = async () => {
     try {

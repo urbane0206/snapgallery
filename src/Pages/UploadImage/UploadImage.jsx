@@ -72,7 +72,7 @@ const UploadImage = () => {
       if (response.ok) {
         setUploadStatus('Image ajoutée avec succès!');
         setTimeout(() => {
-          window.location.reload(); 
+          window.location.reload();
         }, 200);
       } else {
         setUploadStatus('Failed to upload image');
@@ -116,31 +116,31 @@ const UploadImage = () => {
 
         <div className='login__inputs'>
           <div className="login__box">
-            <input 
-                className="login__input"
-                type="text" 
-                name="titre"
-                placeholder="Image Title"
-                value={formData.titre}
-                onChange={handleInputChange}
+            <input
+              className="login__input"
+              type="text"
+              name="titre"
+              placeholder="Image Title"
+              value={formData.titre}
+              onChange={handleInputChange}
             />
           </div>
           <div className="login__box">
-            <input 
-                className="login__input"
-                type="text" 
-                name="description"
-                placeholder="Image Description"
-                value={formData.description}
-                onChange={handleInputChange}
+            <input
+              className="login__input"
+              type="text"
+              name="description"
+              placeholder="Image Description"
+              value={formData.description}
+              onChange={handleInputChange}
             />
           </div>
           <div className="login__box">
-            <select 
-                className="upload__select"
-                name="categorie"
-                value={formData.categorie}
-                onChange={handleInputChange}
+            <select
+              className="upload__select"
+              name="categorie"
+              value={formData.categorie}
+              onChange={handleInputChange}
             >
               <option className="upload__option" value="">Select Category</option>
               <option className="upload__option" value="Music">Music</option>

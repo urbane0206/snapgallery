@@ -33,13 +33,6 @@ const AccountPage = () => {
   const handleLogout = async (event) => {
     event.preventDefault();
     try {
-      await fetch('http://localhost:2000/parameter/account', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userName: user.userName })
-      });
       logout(); // Mise à jour de l'état global
       navigate("/login");
     } catch (error) {
@@ -76,7 +69,7 @@ const AccountPage = () => {
           </div>
         )}
         <br />
-        <button className='login__button' type="submit">Se déconnecter</button>
+        <button className='login__button' type="submit" >Se déconnecter</button>
       </form>
     </div>
   );
