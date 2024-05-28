@@ -77,8 +77,8 @@ Un fichier docker-compose.yml a été créé dans le but lancer l'application sa
 
 
 Pour lancer l'appication , on se met a la racine du projet puis dans un terminale on utilise la commande : `docker-compose up --build`.
- - Exemple : Mon/Chemine/snapgallery> docker-compose up --build.
+ - Exemple : Mon/Chemin/Vers/snapgallery> docker-compose up --build.
 
-Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : http://locahost:517
+Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : http://locahost:5173
 
 
