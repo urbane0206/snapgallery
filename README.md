@@ -33,12 +33,33 @@ Dès que vous êtes connecté, cela renvoie sur http://localhost:5173/account av
 ![Compte](Z-images_explicatives\compte_connecte.png)
 
 ## 2. Partie Images
+Cette partie se porte sur la gestion des images. Voici ce que permet cette partie : 
+ - upload : mettre une image dans snapgallery
+ - affichage acceuil : faire afficher les 20 dernières images de la base de donnée dans l'acceuil
+ - GET image ID : permet de récupéré une image à partir de son ID
+ ![Image_acceuil](Z-images_explicatives\images_acceuil.png)
+ - GET image catégorie : permet de récupéré une image à partir de sa catégorie
+ ![Image_acceuil](Z-images_explicatives\images_categorie.png)
+
+### a) Base de donnée
+Comme base de donnée nous utilisons mysql.
+
+### b) Comment uploader une image
+
+1- Lorsque vous êtes dans l'acceuil, cliquer sur l'icone de l'appareil photo
+2- Une page apparais, complèter ensuite les différentes cases :
+![Upload_Image](Z-images_explicatives\upload_image.png)
+
+
 ### a) Installation des librairies
-Il faut importer cors, espress, multer, fs avant de lancer le code
+Il faut installer les librairies suivante avant de lancer le code : espress, cors, multer, fs. ouvrir un terminal et executer ces commandes :
+`npm init -y`
+`npm install express cors multer mysql dotenv`
 
 ### b) Lancer le code
-`cd Image_NodeJS`
-`node gestion_Image.js`
+Dans un terminal :
+- Aller dans le dossier Gestion_Image : `cd Gestion_Image`
+- Lancer le fichier : `node app.js`
 
 ## 3. Partie Commentaires
 
@@ -51,4 +72,13 @@ Il faut importer Flask, SQLALchemy avant de lancer le code
 
 
 ## 4. Partie Docker
+
+Un fichier docker-compose.yml a été créé dans le but lancer l'application sans avoir à installer touts les pré-requis sur notre ordinateur. Ce fichier va créé un conteneur pour chaque service de l'application et installer toutes les dépendances dont ils  ont besoins pour fonctionner correctement.
+
+
+Pour lancer l'appication , on se met a la racine du projet puis dans un terminale on utilise la commande : `docker-compose up --build`.
+ - Exemple : Mon/Chemin/Vers/snapgallery> docker-compose up --build.
+
+Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : http://locahost:5173
+
 

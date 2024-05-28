@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
 # Configuration pour utiliser PostgreSQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost:10001/CommentaireDB'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@commentaire_db:5432/CommentaireDB'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -195,4 +195,4 @@ def get_dislikes(comment_id):
     return jsonify({'dislikes': comment.dislikes})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)

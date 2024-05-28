@@ -1,0 +1,14 @@
+# Utilise l'image openjdk comme base
+FROM openjdk:17-jdk-slim
+
+# Définit le répertoire de travail
+WORKDIR /app
+
+# Copie le fichier JAR généré dans l'image
+COPY Authentification/target/Authentification-0.0.1-SNAPSHOT.jar ./
+
+# Expose le port utilisé par l'application Spring Boot
+EXPOSE 8080
+
+# Définit la commande pour exécuter l'application
+ENTRYPOINT ["java", "-jar", "Authentification-0.0.1-SNAPSHOT.jar"]
