@@ -1,6 +1,6 @@
-version: '4'
-services:
+version: '3.8'  # Utilisation de la version 3.8 pour une compatibilité optimale
 
+services:
   vite:
     build:
       context: .
@@ -9,22 +9,38 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - HOST=0.0.0.0 
-    
+      - HOST=0.0.0.0
+    depends_on:
+      - auth_service
+      - image_service
+      - commentaire_service
+    networks:
+      - my-network
+
   auth_db:
-    image :  mongo:latest
-    ports :
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=Authentification_db
+    ports:
       - "27017:27017"
     container_name: Authentification_db
-    volumes :
+    volumes:
       - auth_db_data:/data/db
+    networks:
+      - my-network
 
   auth_service:
-    build :
-      context : .
+    build:
+      context: .
       dockerfile: Docker/Dockerfile_auth
     container_name: auth_service
-    
+    ports:
+      - "2000:2000"
+    depends_on:
+      - auth_db
+    networks:
+      - my-network
+
   image_db:
     image: mysql:5.7
     ports:
@@ -36,12 +52,15 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=userpassword
     volumes:
+      - ./mysql/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
       - image_db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -ppassword"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - my-network
 
   image_service:
     build:
@@ -51,29 +70,32 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      image_db:
-        condition: service_healthy
+      - image_db
     entrypoint: ["./wait-for-it.sh", "image_db:3306", "--", "node", "app.cjs"]
     environment:
       - DB_HOST=image_db
       - DB_USER=user
       - DB_PASSWORD=userpassword
       - DB_NAME=snapgallery
+    networks:
+      - my-network
 
   commentaire_service:
-    build :
-      context : .
-      dockerfile : Docker/Dockerfile_commentaire
-    container_name : commentaire_service 
-    ports :
-     - "5000:5000"
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile_commentaire
+    container_name: commentaire_service
+    ports:
+      - "5000:5000"
     environment:
-      - SQLALCHEMY_DATABASE_URI = postgresql://postgres:root@commentaire_db:5432/CommentaireDB
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:root@commentaire_db:5432/CommentaireDB
     depends_on:
       - commentaire_db
+    networks:
+      - my-network
 
   commentaire_db:
-    image : postgres:latest
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
@@ -82,11 +104,15 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=CommentaireDB
     volumes:
-       - commentaire_db_data:/var/lib/postgresql/data
-      
+      - commentaire_db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
 
 volumes:
   auth_db_data:
   image_db_data:
   commentaire_db_data:
-
