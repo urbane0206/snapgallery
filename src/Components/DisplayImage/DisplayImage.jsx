@@ -14,6 +14,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../auth/AuthContext';
 import PropTypes from 'prop-types';
 
+// Composant principal pour afficher une image avec ses commentaires
 const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
     const formattedDate = new Date(uploadDate).toLocaleDateString("fr-FR", {
         year: 'numeric', month: 'long', day: 'numeric'
@@ -27,11 +28,13 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
     const [visibleActionCommentId, setVisibleActionCommentId] = useState(null);
     const user = useAuth();
 
+    // Utilise useEffect pour charger les commentaires et leur compte au chargement de l'image
     useEffect(() => {
         fetchCommentsByImageUrl(imageUrl);
         fetchCommentsCountByImageUrl(imageUrl);
     }, [imageUrl]);
 
+    // Récupère les commentaires d'une image spécifique
     const fetchCommentsByImageUrl = async (url) => {
         try {
             const response = await axios.get(`http://localhost:5000/comments/by-image/${url}`, {
@@ -47,6 +50,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
+    // Récupère le nombre de commentaires pour une image spécifique
     const fetchCommentsCountByImageUrl = async (url) => {
         try {
             const response = await axios.get(`http://localhost:5000/comments/by-image/${url}/count`);
@@ -60,6 +64,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
+    // Gère l'ajout d'un like à un commentaire
     const handleLike = async (commentId) => {
         try {
             const response = await axios.post(`http://localhost:5000/comments/${commentId}/like`, {
@@ -70,11 +75,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
                 }
             });
             const updatedComments = comments.map(comment => {
-                console.log(
-                    "User ID du commentaire par rapport à comment", comment.user_id, "\n",
-                    "User ID du commentaire: ", response.data.user_id, "\n",
-                    "User ID conneter: ", user.user.id, "\n",
-                );
                 if (comment.id === response.data.id) {
                     const likedByUser = !comment.liked_by_user;
                     const dislikes = likedByUser && comment.disliked_by_user ? comment.dislikes - 1 : comment.dislikes;
@@ -90,6 +90,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
+    // Gère l'ajout d'un dislike à un commentaire
     const handleDislike = async (commentId) => {
         try {
             const response = await axios.post(`http://localhost:5000/comments/${commentId}/dislike`, {
@@ -99,7 +100,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(response);
+
             const updatedComments = comments.map(comment => {
                 if (comment.id === response.data.id) {
                     const dislikedByUser = !comment.disliked_by_user;
@@ -116,10 +117,12 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
+    // Gère la modification de l'entrée du commentaire
     const handleInputChange = (event) => {
         setNewComment(event.target.value);
     };
 
+    // Gère la soumission d'un nouveau commentaire
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -141,6 +144,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
+    // Gère la mise à jour d'un commentaire existant
     const handleUpdateComment = async (commentId) => {
         try {
             const response = await axios.put(`http://localhost:5000/comments/${commentId}`, {
@@ -156,6 +160,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
+    // Gère la suppression d'un commentaire existant
     const handleDelete = async (commentId) => {
         try {
             await axios.delete(`http://localhost:5000/comments/${commentId}`, {
@@ -278,6 +283,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
 
 };
 
+// PropTypes pour valider les props passées au composant
 DisplayImage.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     title: PropTypes.string,
