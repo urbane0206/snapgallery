@@ -73,12 +73,34 @@ Il faut importer Flask, SQLALchemy avant de lancer le code
 
 ## 4. Partie Docker
 
-Un fichier docker-compose.yml a été créé dans le but lancer l'application sans avoir à installer touts les pré-requis sur notre ordinateur. Ce fichier va créé un conteneur pour chaque service de l'application et installer toutes les dépendances dont ils  ont besoins pour fonctionner correctement.
+Cette Partie se concentre  sur le lancement de l'application via docker-compose !
+
+Pour cela, un fichier docker-compose.yml a été créé dans le but lancer l'application sans avoir à installer touts les pré-requis sur notre ordinateur. Ce fichier va créé un conteneur pour chaque service de l'application et installer toutes les dépendances dont ils  ont besoins pour fonctionner correctement.
 
 
-Pour lancer l'appication , on se met a la racine du projet puis dans un terminale on utilise la commande : `docker-compose up --build`.
- - Exemple : Mon/Chemin/Vers/snapgallery> docker-compose up --build.
+### Lancement de l'application 
 
-Une fois éxécutée, les conteneurs vont être créés puis lancés un par un. L'application sera disponible sur : http://locahost:5173
+#### Pré-requis 
+
+- Avoir installé maven sur votre ordinateur.
+- Si Maven n'est pas installé vous pouvez le trouver ici : https://maven.apache.org/
+
+#### 1) Création d'un fichier .jar
+
+La première étape pour lancer l'application, est de créer un fichier .jar pour lancer le microservice d'authentification.
+Pour cela :
+
+- Ouvrir le projet dans un IDE ( ex: Vs Code)
+- Ouvrir un terminal de commande.
+- Se rendre dans le dossier "Authentification" grâce à la commande : `cd ./Authentification`.
+- Une fois dans le dossier , utiliser la commande : `mvn clean package` pour créer le fichier .jar du microservice.
+
+#### 2) lancer l'application 
+
+- On retourne à la racine du projet avec la commande : `cd ../`
+- On utilise la commande : `docker-compose up --build`.
+
+ 
+<b><i>Une fois ces étapes réalisées , les conteneurs vont être créés puis lancés un par un. Enfin l'application sera disponible sur : http://locahost:5173</i></b>
 
 
