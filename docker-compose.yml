@@ -81,6 +81,7 @@ services:
       - DB_NAME=snapgallery
     networks:
       - my-network
+    restart: always
 
   commentaire_service:
     build:
