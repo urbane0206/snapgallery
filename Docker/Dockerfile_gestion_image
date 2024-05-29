@@ -21,6 +21,7 @@ RUN npm install express -g
 # Copier tous les fichiers du projet dans le répertoire de travail
 COPY . .
 
+# Copier le script wait-for-it.sh et le convertir
 COPY Gestion_Image/wait-for-it.sh ./
 RUN dos2unix wait-for-it.sh
 RUN chmod +x wait-for-it.sh
@@ -29,4 +30,4 @@ RUN chmod +x wait-for-it.sh
 EXPOSE 3000
 
 # Commande pour démarrer l'application
-CMD ["./wait-for-it.sh", "gestion-image-db:3306", "--", "node", "app.cjs"]
+CMD ["./wait-for-it.sh", "image_db:3306", "--", "node", "app.cjs"]
