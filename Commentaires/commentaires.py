@@ -15,6 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# Définition du modèle pour les "likes" sur les commentaires
 class CommentLike(db.Model):
     __tablename__ = 'comment_like'
     comment_id = db.Column(db.Integer, nullable=False)
@@ -32,6 +33,7 @@ class CommentLike(db.Model):
             'username': self.username,
         }
 
+# Définition du modèle pour les commentaires
 class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -53,22 +55,27 @@ class Comment(db.Model):
             'user_id': self.user_id,
             'image_url': self.image_url,
             'username': self.username,
-        }        
+        }
+
+# Crée les tables avant chaque requête si elles n'existent pas déjà
 @app.before_request
 def create_tables():
     app.before_request_funcs[None].remove(create_tables)
     db.create_all()
 
+# Ajoute des en-têtes pour les requêtes après chaque réponse
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     return response
 
+# Route d'accueil de l'API
 @app.route('/')
 def home():
     return jsonify({'message': "Bienvenue sur l'API des Commentaires!"})
 
+# Crée un nouveau commentaire
 @app.route('/comments', methods=['POST'])
 def create_comment():
     user_id = request.json.get('user_id')
@@ -88,6 +95,7 @@ def create_comment():
         db.session.rollback()
         return jsonify({'error': 'Failed to create comment'}), 500
 
+# Récupère les commentaires pour une image spécifique
 @app.route('/comments/by-image/<path:image_url>', methods=['GET'])
 def get_comments_by_image(image_url):
     current_user = request.args.get('username')  # Ajoutez le username de l'utilisateur connecté
@@ -105,11 +113,14 @@ def get_comments_by_image(image_url):
     except Exception as e:
         return jsonify({'error': 'Failed to fetch comments'}), 500
 
+# Met à jour un commentaire existant
 @app.route('/comments/<int:comment_id>', methods=['PUT'])
 def update_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     data = request.json
-    current_user_id = request.json.get('user_id')  # Assurez-vous d'obtenir l'ID de l'utilisateur authentifié
+    current_user_id = int(data.get('user_id'))  # Convertir en entier
+
+    app.logger.info(f'Comment ID: {comment_id}, User ID: {current_user_id}, Data: {data}')
 
     if comment.user_id != current_user_id:
         return jsonify({"error": "You can only edit your own comments"}), 403
@@ -120,11 +131,14 @@ def update_comment(comment_id):
         return jsonify(comment.to_dict()), 200
     return jsonify({"error": "Content is required"}), 400
 
-
+# Supprime un commentaire existant
 @app.route('/comments/<int:comment_id>', methods=['DELETE'])
 def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
-    current_user_id = request.json.get('user_id')  # Assurez-vous d'obtenir l'ID de l'utilisateur authentifié
+    data = request.json
+    current_user_id = int(data.get('user_id'))  # Convertir en entier
+
+    app.logger.info(f'Comment ID: {comment_id}, User ID: {current_user_id}, Data: {data}')
 
     if comment.user_id != current_user_id:
         return jsonify({"error": "You can only delete your own comments"}), 403
@@ -133,7 +147,7 @@ def delete_comment(comment_id):
     db.session.commit()
     return jsonify({'message': 'Comment deleted'}), 200
 
-
+# Récupère le nombre de commentaires pour une image spécifique
 @app.route('/comments/by-image/<path:image_url>/count', methods=['GET'])
 def get_comments_count_by_image(image_url):
     try:
@@ -142,11 +156,13 @@ def get_comments_count_by_image(image_url):
     except Exception as e:
         return jsonify({'error': 'Failed to fetch comment count'}), 500
 
+# Récupère tous les commentaires
 @app.route('/comments', methods=['GET'])
 def get_comments():
     comments = Comment.query.all()
     return jsonify([comment.to_dict() for comment in comments])
 
+# Ajoute un "like" à un commentaire
 @app.route('/comments/<int:comment_id>/like', methods=['POST'])
 def like_comment(comment_id):
     username = request.json.get('username')
@@ -170,6 +186,7 @@ def like_comment(comment_id):
     db.session.commit()
     return jsonify(comment.to_dict()), 200
 
+# Ajoute un "dislike" à un commentaire
 @app.route('/comments/<int:comment_id>/dislike', methods=['POST'])
 def dislike_comment(comment_id):
     username = request.json.get('username')
@@ -193,15 +210,17 @@ def dislike_comment(comment_id):
     db.session.commit()
     return jsonify(comment.to_dict()), 200
 
+# Récupère le nombre de "likes" d'un commentaire
 @app.route('/comments/<int:comment_id>/like', methods=['GET'])
 def get_likes(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     return jsonify({'likes': comment.likes})
 
+# Récupère le nombre de "dislikes" d'un commentaire
 @app.route('/comments/<int:comment_id>/dislike', methods=['GET'])
 def get_dislikes(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     return jsonify({'dislikes': comment.dislikes})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0", debug=True)
