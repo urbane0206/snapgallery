@@ -36,10 +36,17 @@ Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs :
 
 ## II - Authentification
 
-
 ### Explication du code :
+Ce micro-service d'authentification simple construit à l'aide de Spring Boot. 
+Il permet la création et la gestion des comptes utilisateurs ainsi que l'authentification via des en-têtes HTTP de base.
 
-
+- **Account** : Représente un compte utilisateur avec des champs tels que `id`, `nom`, `prenom`, `userName`, `password`, `email`, etc.
+- **AccountController** : Contrôleur Spring qui gère les requêtes HTTP pour les opérations sur les comptes utilisateurs.
+- **AccountRepository** : Interface Spring Data pour les opérations de persistance sur les comptes utilisateurs.
+- **AuthentificationApplication** : Classe principale pour démarrer l'application Spring Boot.
+- **AuthHeaderBuilder** : Fournit une méthode pour créer des en-têtes d'authentification de base encodés en Base64.
+- **codeToToken** : Représente les données nécessaires pour convertir un code d'autorisation en jeton d'accès.
+- **WebConfig** : Configuration CORS pour permettre les requêtes provenant de l'origine spécifiée.
 
 ### Créer un compte ou se conneter
 
@@ -64,11 +71,29 @@ Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs :
 
 
 ### Explication du code :
+Cette application utilise Flask pour gérer les "likes" et les "dislikes" sur des images et des commentaires. Elle utilise PostgreSQL pour la gestion de la base de données.
 
-Voici les différents modules qu'on utilise pour cette partie :
-    - 
+## Configuration
 
-### Uploader une image
+1. **Initialisation de l'application** :
+    - `Flask` pour créer l'application web.
+    - `CORS` pour permettre les requêtes cross-origin.
+    - `SQLAlchemy` pour l'interaction avec la base de données.
+    - `Migrate` pour gérer les migrations de la base de données.
+
+2. **Modèles de Données** :
+    - `ImageLike` : Représente les "likes" sur les images.
+    - `CommentLike` : Représente les "likes" sur les commentaires.
+    - `Comment` : Représente les commentaires.
+
+## Routes de l'API
+
+- `GET /comments` : Récupère tous les commentaires.
+- `POST /comments` : Ajoute un nouveau commentaire.
+- `POST /comments/<int:comment_id>/like` : Ajoute un "like" à un commentaire.
+- `POST /comments/<int:comment_id>/dislike` : Ajoute un "dislike" à un commentaire.
+- `GET /comments/<int:comment_id>/like` : Récupère le nombre de "likes" d'un commentaire.
+- `GET /comments/<int:comment_id>/dislike` : Récupère le nombre de "dislikes" d'un commentaire.
 
 
 ## IV - Gestion_Image
