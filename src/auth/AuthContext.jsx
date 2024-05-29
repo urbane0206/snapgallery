@@ -15,17 +15,15 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserConnected = async () => {
     try {
-      const response = await fetch('http://localhost:2000/User-connected');
-      let userData;
-      if (response.statusCode === 200) {
-        userData = await response.json();
-      }
-      if (response.ok && userData) {
+      const response = await fetch('http://localhost:2000/User-connected', {
+        credentials: 'include' // Important pour les sessions basées sur des cookies
+      });
+      if (response.ok) {
+        const userData = await response.json();
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
       } else {
-        setUser(null);
-        localStorage.removeItem('user');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error('Failed to fetch user data:', error);
@@ -42,13 +40,13 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userName: user.userName }),
-        credentials: 'include',
+        credentials: 'include', // Assurez-vous que les cookies sont envoyés avec la requête
       });
+      setUser(null);
+      localStorage.removeItem('user');
     } catch (error) {
       console.error('Failed to log out:', error);
     }
-    setUser(null);
-    localStorage.removeItem('user');
   };
 
   return (
