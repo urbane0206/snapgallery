@@ -8,7 +8,7 @@ Dans ce projet nous avons créer un clone de Youtube mais avec des images compos
 Membres du groupe : Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Nicolas MARIE-CATHERINE, Jo-Michel UTO et Floris FALELAVAKi.
 
 
-# Fonctionnement du projet
+## Fonctionnement du projet
 
 
 Voici les différents microservices de notre projet :
@@ -30,14 +30,14 @@ Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs :
 ![Docker_Stack](Z-images_explicatives\Docker_Stack.png)
 
 
-# Authentification
+## Authentification
 
 
-## Explication du code :
+### Explication du code :
 
 
 
-## Créer un compte ou se conneter
+### Créer un compte ou se conneter
 
     - Cliquer sur le bouton de connexion : 
 ![bouton_seconnecter](Z-images_explicatives\bouton_seconnecter.png)
@@ -50,21 +50,21 @@ Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs :
 ![Compte](Z-images_explicatives\compte_connecte.png)
 
 
-# Commentaires
+## Commentaires
 
 
-## Explication du code :
+### Explication du code :
 
 Voici les différents modules qu'on utilise pour cette partie :
     - 
 
-## Uploader une image
+### Uploader une image
 
 
-# Gestion_Image
+## Gestion_Image
 
 
-## Explication du code :
+### Explication du code :
 
 Voici les différents modules qu'on utilise pour cette partie : 
     - EXPRESS pour créer l'applications web 
@@ -85,7 +85,7 @@ Voici les différentes routes que nous avions implémenter :
     - /images/:imageID : pour obtenir une image par son ID afin de l'afficher en grand lorsqu'on clique sur une image dans l'acceuil par exemple.
     - images/category//:category : pour obtenir des images par catégorie
 
-## Uploader une image
+### Uploader une image
 
     - Cliquer sur le bouton d'appareil photo :
 ![bouton_uploadimage](Z-images_explicatives\bouton_uploadimage.png)
@@ -102,7 +102,7 @@ Voici les différentes routes que nous avions implémenter :
  ![Image_acceuil](Z-images_explicatives\images_categorie.png)
 
 
-# Docker
+## Docker
 
 
 Cette Partie se concentre  sur le lancement de l'application via docker-compose !
@@ -110,15 +110,15 @@ Cette Partie se concentre  sur le lancement de l'application via docker-compose 
 Pour cela, un fichier docker-compose.yml a été créé dans le but lancer l'application sans avoir à installer touts les pré-requis sur notre ordinateur. Ce fichier va créé un conteneur pour chaque service de l'application et installer toutes les dépendances dont ils  ont besoins pour fonctionner correctement.
 
 
-# Lancement de l'application 
+## Lancement de l'application 
 
 
-## Pré-requis 
+### Pré-requis 
 
 - Avoir installé maven sur votre ordinateur.
 - Si Maven n'est pas installé vous pouvez le trouver ici : https://maven.apache.org/
 
-## 1) Création d'un fichier .jar
+### 1) Création d'un fichier .jar
 
 La première étape pour lancer l'application, est de créer un fichier .jar pour lancer le microservice d'authentification.
 Pour cela :
@@ -128,7 +128,7 @@ Pour cela :
 - Se rendre dans le dossier "Authentification" grâce à la commande : `cd ./Authentification`.
 - Une fois dans le dossier , utiliser la commande : `mvn clean package` pour créer le fichier .jar du microservice.
 
-## 2) lancer l'application 
+### 2) lancer l'application 
 
 - On retourne à la racine du projet avec la commande : `cd ../`
 - On utilise la commande : `docker-compose up --build`.
