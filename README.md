@@ -13,11 +13,11 @@ Membres du groupe : Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Nicolas MA
 
 Voici les différents microservices de notre projet :
     
-    - Authentification : Permet aux utilisateurs de créer un compte et de s'authentifier.
+ - Authentification : Permet aux utilisateurs de créer un compte et de s'authentifier.
     
-    - Commentaire : Permet de commenter, modifier ou supprimer des commentaires, ainsi que d'ajouter des pouces vers le haut ou vers le bas sur une image.
+ - Commentaire : Permet de commenter, modifier ou supprimer des commentaires, ainsi que d'ajouter des pouces vers le haut ou vers le bas sur une image.
     
-    - Gestion_Image : Permet aux utilisateurs de télécharger ou de supprimer une image.
+ - Gestion_Image : Permet aux utilisateurs de télécharger ou de supprimer une image.
 
 Chaque microservice est implémenté avec un langage différent :
     - Authentification : Java Spring Boot
