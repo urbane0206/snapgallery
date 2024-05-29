@@ -30,7 +30,7 @@ const Search = () => {
 
   return (
     <div className='search-results'>
-      <h1>Search Results</h1>
+      <h1>Résultats de Recherche</h1>
       <div className='grid-container'>
         {images.map((image, index) => (
           <div className="grid-item" key={index}>
