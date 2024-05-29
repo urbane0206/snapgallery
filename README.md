@@ -3,38 +3,38 @@
 
 Dans ce projet nous avons créer un clone de Youtube mais avec des images composé d'une interface Web et des microservices Web.
 
-![Page d'acceuil](Z-images_explicatives\images_acceuil.png)
+![images_acceuil](https://github.com/urbane0206/snapgallery/assets/108905191/6880d079-f7d4-421d-90dc-46cace767a2d)
 
 Membres du groupe : Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Nicolas MARIE-CATHERINE, Jo-Michel UTO et Floris FALELAVAKi.
 
 
-## Fonctionnement du projet
+## I - Fonctionnement du projet
 
 
 Voici les différents microservices de notre projet :
     
  - Authentification : Permet aux utilisateurs de créer un compte et de s'authentifier.
-    
  - Commentaire : Permet de commenter, modifier ou supprimer des commentaires, ainsi que d'ajouter des pouces vers le haut ou vers le bas sur une image.
-    
  - Gestion_Image : Permet aux utilisateurs de télécharger ou de supprimer une image.
 
 Chaque microservice est implémenté avec un langage différent :
-    - Authentification : Java Spring Boot
-    - Commentaire : Python
-    - Gestion_Image : NodeJS
+ 
+ - Authentification : Java Spring Boot
+ - Commentaire : Python
+ - Gestion_Image : NodeJS
 
 Chaque microservice utilise également une base de données différente :
-    - Authentification : MongoDB
-    - Commentaire : PostgreSQL
-    - Gestion_Image : MySQL
+ 
+ - Authentification : MongoDB
+ - Commentaire : PostgreSQL
+ - Gestion_Image : MySQL
 
 Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs : 
 
-![Docker Desktop](Z-images_explicatives\Docker_Stack.png)
+![Docker_Stack](https://github.com/urbane0206/snapgallery/assets/108905191/2405dbe4-e114-4ccc-a446-a0439cc6102f)
 
 
-## Authentification
+## II - Authentification
 
 
 ### Explication du code :
@@ -43,23 +43,24 @@ Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs :
 
 ### Créer un compte ou se conneter
 
-    - Cliquer sur le bouton de connexion : 
+ - Cliquer sur le bouton de connexion : 
 
-![Bouton se connecter page d'acceuil](Z-images_explicatives\bouton_seconnecter.png)
-    - Une nouvelle page s'ouvre :
+![bouton_seconnecter](https://github.com/urbane0206/snapgallery/assets/108905191/90e7bf99-2733-427c-a924-e1d8d294331f)
 
-![Page login](Z-images_explicatives\page_login.png) 
+ - Une nouvelle page s'ouvre :
 
-    - On peut soit se connecter directement si on a créé un compte ou continuer avec GitHub.
-    - Si vous cliquez sur le bouton GitHub, cela va se rediriger sur OAuth2 de GitHub pour se connecter.
-    - Dès que vous êtes connecté, cela renvoie sur http://localhost:5173/account avec quelques informations de connexion.
+![page_login](https://github.com/urbane0206/snapgallery/assets/108905191/de8ceaf7-6108-427b-9d3a-02e32d7cabe9)
 
-![OAuth2](Z-images_explicatives\redirection_OAuth2_GitHub.png)
+ - On peut soit se connecter directement si on a créé un compte ou continuer avec GitHub.
+ - Si vous cliquez sur le bouton GitHub, cela va se rediriger sur OAuth2 de GitHub pour se connecter.
+ - Dès que vous êtes connecté, cela renvoie sur http://localhost:5173/account avec quelques informations de connexion.
 
-![Compte](Z-images_explicatives\compte_connecte.png)
+![redirection_OAuth2_GitHub](https://github.com/urbane0206/snapgallery/assets/108905191/389f5109-33c8-43c8-89df-6f1fee7404db)
+
+![compte_connecte](https://github.com/urbane0206/snapgallery/assets/108905191/73caaf16-5c08-41d1-a909-6b98d565fe92)
 
 
-## Commentaires
+## III - Commentaires
 
 
 ### Explication du code :
@@ -70,55 +71,44 @@ Voici les différents modules qu'on utilise pour cette partie :
 ### Uploader une image
 
 
-## Gestion_Image
+## IV - Gestion_Image
 
 
 ### Explication du code :
 
 Voici les différents modules qu'on utilise pour cette partie : 
-    - EXPRESS pour créer l'applications web 
-    - CORS pour les requêtes (POST, GET...) 
-    - MULTER pour la gestion des données
-    - PATH pour les chemins
-    - MYSQL pour la base de donnée
-    - FS pour interagir avec le système de fichier 
-    - DOTENV pour charger les variables d'envirennement définies dans un fichier
+ - EXPRESS pour créer l'applications web 
+ - CORS pour les requêtes (POST, GET...) 
+ - MULTER pour la gestion des données
+ - PATH pour les chemins
+ - MYSQL pour la base de donnée
+ - FS pour interagir avec le système de fichier 
+ - DOTENV pour charger les variables d'envirennement définies dans un fichier
 
 Voici les différentes routes que nous avions implémenter :
-    - / : Pour vérifier que le serveur fonctionne
-    - /upload : qui permet uploader une image. 
-    Losqu'une image est uploader :
-        - son id, son titre, sa categorie, sa description, le chemin de son emplacement, et la date auquelle l'image a était uploader est stocker dans la base de donnée.
-        - l'image est renommer "UserName-date" et stocker dans le dossier "Gestion_Image\uploads\User_name"
-    - /images : pour obtenir les 20 dernières images afin de remplir la page d'acceuil
-    - /images/:imageID : pour obtenir une image par son ID afin de l'afficher en grand lorsqu'on clique sur une image dans l'acceuil par exemple.
-    - images/category//:category : pour obtenir des images par catégorie
+ - GET / : Pour vérifier que le serveur fonctionne
+ - POST /upload : qui permet uploader une image. 
+   Losqu'une image est uploader :
+     - son id, son titre, sa categorie, sa description, le chemin de son emplacement, et la date auquelle l'image a était uploader est stocker dans la base de donnée.
+     - l'image est renommer "UserName-date" et stocker dans le dossier "Gestion_Image\uploads\User_name"
+ - GET /images : pour obtenir les 20 dernières images afin de remplir la page d'acceuil
+ - GET /images/:imageID : pour obtenir une image par son ID afin de l'afficher en grand lorsqu'on clique sur une image dans l'acceuil par exemple.
+ - GET /images/category/:category : pour obtenir des images par catégorie
 
 ### Uploader une image
 
-    - Cliquer sur le bouton d'appareil photo :
+ - Cliquer sur le bouton d'appareil photo :
 
-![Bouton upload image page d'acceuil](Z-images_explicatives\bouton_uploadimage.png)
+![bouton_uploadimage](https://github.com/urbane0206/snapgallery/assets/108905191/fc15e115-2a2d-4c04-abf1-4dbba62c2d04)
 
-    - Une nouvelle page s'ouvre :
+ - Une nouvelle page s'ouvre :
 
-![Page upload image](Z-images_explicatives\upload_image.png)   
+![upload_image](https://github.com/urbane0206/snapgallery/assets/108905191/57892a22-e611-4992-88c8-183fd3d52c93) 
 
-    - Compléter les différentes cases et cliquer sur Upload
-
-    
-    - upload : mettre une image dans snapgallery
- - affichage acceuil : faire afficher les 20 dernières images de la base de donnée dans l'acceuil
- - GET image ID : permet de récupéré une image à partir de son ID
-
- ![Page d'acceuil](Z-images_explicatives\images_acceuil.png)
-
- - GET image catégorie : permet de récupéré une image à partir de sa catégorie
-
- ![Categorie d'image](Z-images_explicatives\image_categorie.png)
+ - Compléter les différentes cases et cliquer sur Upload
 
 
-## Docker
+## V - Docker
 
 
 Cette Partie se concentre  sur le lancement de l'application via docker-compose !
