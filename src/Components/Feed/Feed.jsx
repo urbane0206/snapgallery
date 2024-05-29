@@ -25,10 +25,10 @@ const Feed = () => {
   return (
     <div className="feed">
       {images.map((image, index) => (
-        <Link to={`Image/${image.id}`} key={index} className='card'>
+        <Link to={`Image/${image.id}`} key={index} className='cardd'>
           <img src={image.filePath} alt={image.title} />
-          <h2>{image.description}</h2>
-          <h3>{image.owner} - {image.category}</h3>
+          <h2>{image.title}</h2>
+          <h3>{image.userId} - {image.category}</h3>
           <p>Date: {new Date(image.uploadDate).toLocaleDateString()}</p>
         </Link>
       ))}

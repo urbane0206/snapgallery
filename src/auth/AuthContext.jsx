@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       checkUserConnected();
-    }, 2000); 
+    }, 1000); 
 
     return () => clearTimeout(timer); 
   }, []);

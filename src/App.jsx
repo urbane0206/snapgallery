@@ -8,6 +8,7 @@ import Login from './Pages/Login/Login';
 import AccountPage from './Pages/Account/AccountPage';
 import Inscription from './Pages/Inscription/Inscription';
 import Category from './Pages/Category/Category';  
+import Search from './Pages/Search/Search'
 import PrivateRoute from './auth/PrivateRoute';
 import { AuthProvider } from './auth/AuthContext';
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path='/UploadImage' element={<PrivateRoute><UploadImage /></PrivateRoute>} />
           <Route path='/account' element={<PrivateRoute><AccountPage /></PrivateRoute>} />
           <Route path='/category/:category' element={<PrivateRoute><Category /></PrivateRoute>} />
+          <Route path='/search' element={<PrivateRoute><Search /></PrivateRoute>} />
         </Routes>
       </div>
     </AuthProvider>

@@ -1,8 +1,9 @@
-.category-feed {
+/* SearchResults.css */
+.search-results {
     padding: 20px;
   }
   
-  .category-feed h1 {
+  .search-results h1 {
     text-align: center;
     margin-bottom: 20px;
   }
@@ -24,7 +25,6 @@
     flex-direction: column;
   }
   
-  
   .grid-item img {
     display: flex;
     align-items: center;
@@ -38,11 +38,11 @@
   }
   
   .grid-item img:hover {
-    transform: scale(1.04); /* Appliquer un effet de zoom de 10% */
+    transform: scale(1.04); /* Appliquer un effet de zoom de 1% */
   }
-
+  
   .image-info {
-    margin-left: 20px;
+    padding: 10px;
     flex: 1; /* Permet à l'information de l'image de remplir l'espace restant */
     display: flex;
     flex-direction: column;

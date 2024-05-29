@@ -20,6 +20,11 @@
     width: fit-content;
     flex-wrap: wrap;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.side-link:hover {
+    transform: scale(1.05);
 }
 
 .sidebar hr{

@@ -111,6 +111,35 @@ app.get('/images', async (req, res) => {
   });
 });
 
+// Route pour obtenir 10 images aléatoires
+app.get('/random-images', (req, res) => {
+  const sql = 'SELECT * FROM images ORDER BY RAND() LIMIT 10';
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des images aléatoires:', err);
+      return res.status(500).send('Erreur lors de la récupération des images aléatoires');
+    }
+    res.json(results);
+  });
+});
+
+// Route pour rechercher des images par titre
+app.get('/search-images', (req, res) => {
+  const searchTerm = req.query.q;
+  const sql = `
+    SELECT * FROM images 
+    WHERE title REGEXP ? 
+    OR description REGEXP ? 
+    OR category REGEXP ?`;
+  const regexPattern = `.*${searchTerm}.*`;
+  db.query(sql, [regexPattern, regexPattern, regexPattern], (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la recherche des images:', err);
+      return res.status(500).send('Erreur lors de la recherche des images');
+    }
+    res.json(results);
+  });
+});
 
 app.get('/images/:imageId', (req, res) => {
   const imageId = req.params.imageId;

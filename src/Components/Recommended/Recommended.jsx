@@ -8,12 +8,12 @@ const Recommanded = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('http://localhost:3000/images');
+        const response = await fetch('http://localhost:3000/random-images');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setImages(data.slice(0, 8)); 
+        setImages(data.slice(0, 9)); 
       } catch (error) {
         console.error('Failed to fetch images:', error);
       }
@@ -21,6 +21,7 @@ const Recommanded = () => {
 
     fetchImages();
   }, []);
+
 
   return (
     <div className='recommended'>

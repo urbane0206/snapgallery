@@ -58,7 +58,7 @@ const Login = () => {
           navigate('/'); 
           setLoading(false); 
           sessionStorage.setItem('loading', 'false');
-        }, 2000); 
+        }, 1000); 
       }
     } catch (error) {
       console.error('Erreur lors de la soumission du formulaire:', error);
@@ -85,7 +85,7 @@ const Login = () => {
           navigate('/'); 
           setLoading(false); 
           sessionStorage.setItem('loading', 'false');
-        }, 2000);  
+        }, 1000);  
       } else {
         console.error("Erreur:", response.status);
         setLoading(false);

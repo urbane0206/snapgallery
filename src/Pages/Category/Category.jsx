@@ -25,7 +25,7 @@ const Category = () => {
 
   return (
     <div className='category-feed'>
-      <h1>{category.charAt(0).toUpperCase() + category.slice(1)} Images</h1>
+      <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       <div className="grid-container">
         {images.length > 0 ? (
           images.map((image, index) => (
@@ -39,7 +39,7 @@ const Category = () => {
             </Link>
           ))
         ) : (
-          <p>No images found in this category.</p>
+          <p>Pas d'image a afficher.</p>
         )}
       </div>
     </div>
