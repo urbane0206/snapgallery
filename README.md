@@ -103,7 +103,7 @@ Voici les différentes routes que nous avions implémenter :
 
  - Une nouvelle page s'ouvre :
 
-![upload_image](https://github.com/urbane0206/snapgallery/assets/108905191/57892a22-e611-4992-88c8-183fd3d52c93) 
+![Capture_decran_2024-05-29_215459](https://github.com/urbane0206/snapgallery/assets/108905191/95cb3a40-52bd-4ee5-9876-cbd9d087023e)
 
  - Compléter les différentes cases et cliquer sur Upload
 
