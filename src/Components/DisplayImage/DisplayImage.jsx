@@ -14,7 +14,6 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../auth/AuthContext';
 import PropTypes from 'prop-types';
 
-// Composant principal pour afficher une image avec ses commentaires
 const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
     const formattedDate = new Date(uploadDate).toLocaleDateString("fr-FR", {
         year: 'numeric', month: 'long', day: 'numeric'
@@ -28,10 +27,18 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
     const [visibleActionCommentId, setVisibleActionCommentId] = useState(null);
     const user = useAuth();
 
+    const [imageLikes, setImageLikes] = useState(0);
+    const [imageDislikes, setImageDislikes] = useState(0);
+    const [likedImage, setLikedImage] = useState(false);
+    const [dislikedImage, setDislikedImage] = useState(false);
+    const [imageViews, setImageViews] = useState(0);
+
     // Utilise useEffect pour charger les commentaires et leur compte au chargement de l'image
     useEffect(() => {
         fetchCommentsByImageUrl(imageUrl);
         fetchCommentsCountByImageUrl(imageUrl);
+        fetchImageLikesDislikes(imageUrl);
+        incrementImageViews(imageUrl);  // Incrémente le compteur de vues à chaque affichage
     }, [imageUrl]);
 
     // Récupère les commentaires d'une image spécifique
@@ -61,6 +68,43 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
             }
         } catch (error) {
             console.error('Error fetching comment count:', error);
+        }
+    };
+
+    // Récupère les likes et dislikes de l'image
+    const fetchImageLikesDislikes = async (url) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/images/${url}/likes-dislikes`, {
+                params: { username: user.user.userName }
+            });
+            if (response.status === 200) {
+                setImageLikes(response.data.likes);
+                setImageDislikes(response.data.dislikes);
+                setLikedImage(response.data.liked_by_user);
+                setDislikedImage(response.data.disliked_by_user);
+            } else {
+                console.error('Failed to fetch image likes/dislikes');
+            }
+        } catch (error) {
+            console.error('Error fetching image likes/dislikes:', error);
+        }
+    };
+
+    // Incrémente le compteur de vues de l'image
+    const incrementImageViews = async (url) => {
+        try {
+            const response = await axios.post(`http://localhost:5000/images/${url}/view`, {}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                setImageViews(response.data.views);
+            } else {
+                console.error('Failed to increment image views');
+            }
+        } catch (error) {
+            console.error('Error incrementing image views:', error);
         }
     };
 
@@ -114,6 +158,46 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
             setComments(updatedComments);
         } catch (error) {
             console.error('Erreur lors du dislike du commentaire :', error);
+        }
+    };
+
+    // Gère l'ajout d'un like à l'image
+    const handleImageLike = async () => {
+        try {
+            const response = await axios.post(`http://localhost:5000/images/${imageUrl}/like`, {
+                username: user.user.userName
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const { likes, dislikes, liked_by_user, disliked_by_user } = response.data;
+            setImageLikes(likes);
+            setImageDislikes(dislikes);
+            setLikedImage(liked_by_user);
+            setDislikedImage(disliked_by_user);
+        } catch (error) {
+            console.error('Erreur lors du like de l\'image :', error);
+        }
+    };
+
+    // Gère l'ajout d'un dislike à l'image
+    const handleImageDislike = async () => {
+        try {
+            const response = await axios.post(`http://localhost:5000/images/${imageUrl}/dislike`, {
+                username: user.user.userName
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const { likes, dislikes, liked_by_user, disliked_by_user } = response.data;
+            setImageLikes(likes);
+            setImageDislikes(dislikes);
+            setLikedImage(liked_by_user);
+            setDislikedImage(disliked_by_user);
+        } catch (error) {
+            console.error('Erreur lors du dislike de l\'image :', error);
         }
     };
 
@@ -179,10 +263,10 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
             <img className='Displayed-img' src={imageUrl} alt={title} />
             <h3>{title}</h3>
             <div className='show-image-info'>
-                <p>1525 Vues &bull; {formattedDate}</p>
+                <p>{imageViews} Vues &bull; {formattedDate}</p>
                 <div>
-                    <span><img src={like} alt="Like" /> 125</span>
-                    <span><img src={dislike} alt="Dislike" />0</span>
+                    <span><img src={likedImage ? liked : like} alt="Like" onClick={handleImageLike} style={{ cursor: 'pointer' }} /> {imageLikes}</span>
+                    <span><img src={dislikedImage ? disliked : dislike} alt="Dislike" onClick={handleImageDislike} style={{ cursor: 'pointer' }} /> {imageDislikes}</span>
                     <span><img src={share} alt="Partager" />Partager</span>
                     <span><img src={save} alt="Enregistrer" />Enregistrer</span>
                 </div>

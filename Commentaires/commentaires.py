@@ -15,6 +15,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# Définition du modèle pour les "likes" sur les images
+class ImageLike(db.Model):
+    __tablename__ = 'image_like'
+    image_url = db.Column(db.String(255), nullable=False)
+    username = db.Column(db.String(255), nullable=False)
+    likes = db.Column(db.Boolean, nullable=False, default=True)
+    views = db.Column(db.Integer, default=0)
+    __table_args__ = (
+        PrimaryKeyConstraint('image_url', 'username'),
+        {},
+    )
+
+    def to_dict(self):
+        return {
+            'image_url': self.image_url,
+            'likes': self.likes,
+            'username': self.username,
+            'views': self.views
+        }
+
+
 # Définition du modèle pour les "likes" sur les commentaires
 class CommentLike(db.Model):
     __tablename__ = 'comment_like'
@@ -94,6 +115,85 @@ def create_comment():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create comment'}), 500
+
+@app.route('/images/<path:image_url>/view', methods=['POST'])
+def increment_image_views(image_url):
+    try:
+        image_like = ImageLike.query.filter_by(image_url=image_url).first()
+        if image_like:
+            image_like.views += 1
+        else:
+            image_like = ImageLike(image_url=image_url, username='', views=1)
+            db.session.add(image_like)
+        db.session.commit()
+        return jsonify({'views': image_like.views}), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to increment image views'}), 500
+
+@app.route('/images/<path:image_url>/likes-dislikes', methods=['GET'])
+def get_image_likes_dislikes(image_url):
+    current_user = request.args.get('username')
+    try:
+        likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
+        dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
+        liked_by_user = ImageLike.query.filter_by(image_url=image_url, username=current_user, likes=True).first() is not None
+        disliked_by_user = ImageLike.query.filter_by(image_url=image_url, username=current_user, likes=False).first() is not None
+        views = ImageLike.query.filter_by(image_url=image_url).first().views
+        return jsonify({
+            'likes': likes,
+            'dislikes': dislikes,
+            'liked_by_user': liked_by_user,
+            'disliked_by_user': disliked_by_user,
+            'views': views
+        }), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to fetch image likes/dislikes'}), 500
+
+
+@app.route('/images/<path:image_url>/like', methods=['POST'])
+def like_image(image_url):
+    username = request.json.get('username')
+
+    existing_like = ImageLike.query.filter_by(image_url=image_url, username=username, likes=True).first()
+    existing_dislike = ImageLike.query.filter_by(image_url=image_url, username=username, likes=False).first()
+
+    if existing_like:
+        db.session.delete(existing_like)
+    else:
+        if existing_dislike:
+            db.session.delete(existing_dislike)
+        
+        new_like = ImageLike(image_url=image_url, username=username, likes=True)
+        db.session.add(new_like)
+
+    db.session.commit()
+
+    likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
+    dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
+    return jsonify({'likes': likes, 'dislikes': dislikes, 'liked_by_user': True, 'disliked_by_user': False}), 200
+
+@app.route('/images/<path:image_url>/dislike', methods=['POST'])
+def dislike_image(image_url):
+    username = request.json.get('username')
+
+    existing_like = ImageLike.query.filter_by(image_url=image_url, username=username, likes=True).first()
+    existing_dislike = ImageLike.query.filter_by(image_url=image_url, username=username, likes=False).first()
+
+    if existing_dislike:
+        db.session.delete(existing_dislike)
+    else:
+        if existing_like:
+            db.session.delete(existing_like)
+        
+        new_dislike = ImageLike(image_url=image_url, username=username, likes=False)
+        db.session.add(new_dislike)
+
+    db.session.commit()
+
+    likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
+    dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
+    return jsonify({'likes': likes, 'dislikes': dislikes, 'liked_by_user': False, 'disliked_by_user': True}), 200
+
 
 # Récupère les commentaires pour une image spécifique
 @app.route('/comments/by-image/<path:image_url>', methods=['GET'])
