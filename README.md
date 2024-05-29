@@ -3,7 +3,7 @@
 
 Dans ce projet nous avons créer un clone de Youtube mais avec des images composé d'une interface Web et des microservices Web.
 
-![images_acceuil](Z-images_explicatives\images_acceuil.png)
+![Page d'acceuil](Z-images_explicatives\images_acceuil.png)
 
 Membres du groupe : Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Nicolas MARIE-CATHERINE, Jo-Michel UTO et Floris FALELAVAKi.
 
@@ -27,7 +27,7 @@ Chaque microservice utilise également une base de données différente :
     - Gestion_Image : MySQL
 
 Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs : 
-![Docker_Stack](Z-images_explicatives\Docker_Stack.png)
+![Docker Desktop](Z-images_explicatives\Docker_Stack.png)
 
 
 ## Authentification
@@ -40,9 +40,9 @@ Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs :
 ### Créer un compte ou se conneter
 
     - Cliquer sur le bouton de connexion : 
-![bouton_seconnecter](Z-images_explicatives\bouton_seconnecter.png)
+![Bouton se connecter page d'acceuil](Z-images_explicatives\bouton_seconnecter.png)
     - Une nouvelle page s'ouvre :
-![page_login](Z-images_explicatives\page_login.png) 
+![Page login](Z-images_explicatives\page_login.png) 
     - On peut soit se connecter directement si on a créé un compte ou continuer avec GitHub.
     - Si vous cliquez sur le bouton GitHub, cela va se rediriger sur OAuth2 de GitHub pour se connecter.
     - Dès que vous êtes connecté, cela renvoie sur http://localhost:5173/account avec quelques informations de connexion.
@@ -88,18 +88,18 @@ Voici les différentes routes que nous avions implémenter :
 ### Uploader une image
 
     - Cliquer sur le bouton d'appareil photo :
-![bouton_uploadimage](Z-images_explicatives\bouton_uploadimage.png)
+![Bouton upload image page d'acceuil](Z-images_explicatives\bouton_uploadimage.png)
     - Une nouvelle page s'ouvre :
-![upload_image](Z-images_explicatives\upload_image.png)   
+![Page upload image](Z-images_explicatives\upload_image.png)   
     - Compléter les différentes cases et cliquer sur Upload
 
     
     - upload : mettre une image dans snapgallery
  - affichage acceuil : faire afficher les 20 dernières images de la base de donnée dans l'acceuil
  - GET image ID : permet de récupéré une image à partir de son ID
- ![Image_acceuil](Z-images_explicatives\images_acceuil.png)
+ ![Page d'acceuil](Z-images_explicatives\images_acceuil.png)
  - GET image catégorie : permet de récupéré une image à partir de sa catégorie
- ![Image_acceuil](Z-images_explicatives\images_categorie.png)
+ ![Categorie d'image](Z-images_explicatives\image_categorie.png)
 
 
 ## Docker
