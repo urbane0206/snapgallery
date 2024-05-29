@@ -1,35 +1,50 @@
-.feed{
+.feed {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-column-gap: 16px;
     grid-row-gap: 30px;
     margin-top: 15px;
-}
-
-.card img{
+  }
+  
+  .cardd {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 200px;
+    border-radius: 12px;
+    padding: 16px;
+    height: 300px; /* Fixer la hauteur des cartes */
+    width: 100%; /* Assurer que les cartes remplissent leur colonne */
+    box-sizing: border-box; /* Inclure le padding et la bordure dans la taille totale */
+  }
+  
+  .cardd img {
+    max-height: 200px; /* Fixer la hauteur maximale des images */
     width: auto;
     margin: auto;
     border-radius: 12px;
-}
-
-.card h2{
+    transition: transform 0.3s ease; /* Ajout d'une transition pour l'effet de zoom */
+  }
+  
+  .cardd img:hover {
+    transform: scale(1.1); /* Appliquer un effet de zoom de 10% */
+  }
+  
+  .cardd h2 {
     font-size: 16px;
     font-weight: 600;
     color: #000;
     margin: 5px 0;
-}
-
-.card h3{
+  }
+  
+  .cardd h3 {
     font-size: 14px;
     font-weight: 600;
     color: #555;
     margin: 6px 0;
-}
-
-.card p{
+  }
+  
+  .cardd p {
     font-size: 14px;
-}
+  }
+  
