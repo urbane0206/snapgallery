@@ -8,8 +8,8 @@ services:
     container_name: Accueil-vite
     ports:
       - "5173:5173"
-    environment:
-      - HOST=0.0.0.0
+    volumes:
+      - shared_images:/app/Gestion_Image/uploads  
     depends_on:
       - auth_service
       - image_service
@@ -70,7 +70,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./Gestion_Image/uploads:/app/Gestion_Image/uploads
+      - shared_images:/app/Gestion_Image/uploads  
     depends_on:
       - image_db
     entrypoint: ["./wait-for-it.sh", "image_db:3306", "--", "node", "app.cjs"]
@@ -118,3 +118,4 @@ volumes:
   auth_db_data:
   image_db_data:
   commentaire_db_data:
+  shared_images:  

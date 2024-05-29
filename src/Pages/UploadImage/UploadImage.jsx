@@ -73,7 +73,7 @@ const UploadImage = () => {
         setUploadStatus('Image ajoutée avec succès!');
         setTimeout(() => {
           window.location.reload();
-        }, 200);
+        }, 800);
       } else {
         setUploadStatus('Failed to upload image');
       }
