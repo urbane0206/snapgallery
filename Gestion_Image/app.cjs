@@ -31,8 +31,8 @@ const storage = multer.diskStorage({
       return cb(new Error('userId est requis'), null);
     }
 
-    // Assurez-vous que le chemin de la destination contient 'Gestion_Image' plutôt que 'app'
-    const dir = path.join(__dirname, 'uploads', userId);
+    
+    const dir = path.join(__dirname, 'Gestion_Image/uploads', userId);
     fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
