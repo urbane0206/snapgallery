@@ -4,7 +4,7 @@ import background from '../../assets/login-bg.png';
 import GitHub_logo from '../../assets/Github_logo.png';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/AuthContext';  // Importer le contexte d'authentification
+import { useAuth } from '../../auth/AuthContext';
 
 const CLIENT_ID = "Ov23likhB2rCIFONu2Wq";
 const CLIENT_SECRET = "712c6b35b179fdfaa3a69dea563d97f1b4bf4498";
@@ -12,7 +12,7 @@ const REDIRECT_URI = "http://localhost:5173/login";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();  // Utiliser le contexte d'authentification
+  const { setUser } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -21,26 +21,22 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = { email, password };
-
     try {
       const response = await fetch('http://localhost:2000/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-
       if (response.status === 401) {
         setErrorMessage("Identifiants incorrects. Veuillez réessayer.");
       } else if (response.status === 200) {
         const responseData = await response.json();
-        setUser(responseData);  // Mettre à jour l'état de l'utilisateur
-        localStorage.setItem('user', JSON.stringify(responseData));  // Stocker l'utilisateur dans localStorage
-        navigate('/');  // Rediriger vers la page d'accueil
+        setUser(responseData);
+        localStorage.setItem('user', JSON.stringify(responseData));
+        setTimeout(() => navigate('/'), 2000); 
       }
     } catch (error) {
-      console.error('Erreur lors de la soumission du formulaire :', error);
+      console.error('Erreur lors de la soumission du formulaire:', error);
     }
   };
 
@@ -54,9 +50,9 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:2000/connect-by-github', { email, userName: login });
       if (response.status === 200) {
-        setUser(response.data);  // Mettre à jour l'état de l'utilisateur
-        localStorage.setItem('user', JSON.stringify(response.data));  // Stocker l'utilisateur dans localStorage
-        navigate('/');  // Rediriger vers la page d'accueil
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        setTimeout(() => navigate('/'), 2000); 
       } else {
         console.error("Erreur:", response.status);
       }
@@ -69,9 +65,7 @@ const Login = () => {
     const token = accessToken.split("=")[1].split("&")[0];
     try {
       const response = await fetch('https://api.github.com/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
         const userInfo = await response.json();

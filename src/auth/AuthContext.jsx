@@ -1,4 +1,3 @@
-// src/auth/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
@@ -10,20 +9,26 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    checkUserConnected();
+    const timer = setTimeout(() => {
+      checkUserConnected();
+    }, 2000); 
+
+    return () => clearTimeout(timer); 
   }, []);
 
   const checkUserConnected = async () => {
     try {
       const response = await fetch('http://localhost:2000/User-connected', {
-        credentials: 'include' // Important pour les sessions basées sur des cookies
+        credentials: 'include' 
       });
       if (response.ok) {
-        const userData = await response.json();
+        const text = await response.text(); 
+        if (!text) throw new Error('Empty response');
+        const userData = JSON.parse(text); 
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
       } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`); 
       }
     } catch (error) {
       console.error('Failed to fetch user data:', error);
@@ -40,7 +45,7 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userName: user.userName }),
-        credentials: 'include', // Assurez-vous que les cookies sont envoyés avec la requête
+        credentials: 'include', 
       });
       setUser(null);
       localStorage.removeItem('user');
