@@ -7,6 +7,14 @@ Dans ce projet nous avons créer un clone de Youtube mais avec des images compos
 
 Membres du groupe : Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Nicolas MARIE-CATHERINE, Jo-Michel UTO et Floris FALELAVAKi.
 
+# Réparition du projet 
+
+- Sean et Dieudonné se sont occupé de la partie Authentification [II - Authentification](#ii---authentification)
+- Jo-Michel et Floris se sont occupés de la partie des commentaires [III - Commentaires](#iii---commentaires)
+- Maxime s'est occupé de la gestion des images [IV - Gestion_Image](#iv---gestion_image)
+- Nicolas s'est occupé de la partie Docker [V - Docker](#v---docker)
+  
+- Chaque sous-groupe à rédiger la documentation de sa propre partie.
 
 ## I - Fonctionnement du projet
 
@@ -144,11 +152,8 @@ Voici les différentes routes que nous avions implémenter :
 
  - Il est possible de faire une recherche afin de trouver l'image en cliquant sur la barre de recherche de l'accueil et en mettant un mot ayant un lien avec votre image (pour cela nous avons utilisé des requetes rejecs de MySQL) exemple :
 
-![search](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/search.png)
 
-- Pour rechercher votre image il est aussi possibles de faire une recherche par catégories en cliquant sur la barre des catégories
 
-![feed](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/feed.png)
 
 
 ## V - Docker
