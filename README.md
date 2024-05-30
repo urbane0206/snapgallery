@@ -56,7 +56,8 @@ Il permet la création et la gestion des comptes utilisateurs ainsi que l'authen
 
  - Une nouvelle page s'ouvre :
 
-![page_login](https://github.com/urbane0206/snapgallery/assets/108905191/de8ceaf7-6108-427b-9d3a-02e32d7cabe9)
+![page_login](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/page_login.png)
+
 
  - On peut soit se connecter directement si on a créé un compte ou continuer avec GitHub.
  - Si vous cliquez sur le bouton GitHub, cela va se rediriger sur OAuth2 de GitHub pour se connecter.
@@ -128,7 +129,7 @@ Voici les différentes routes que nous avions implémenter :
 
  - Une nouvelle page s'ouvre :
 
-![Capture_decran_2024-05-29_215459](https://github.com/urbane0206/snapgallery/assets/108905191/95cb3a40-52bd-4ee5-9876-cbd9d087023e)
+https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/page_login.png
 
  - Compléter les différentes cases et cliquer sur Upload
 
