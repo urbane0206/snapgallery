@@ -11,7 +11,7 @@ Membres du groupe : Maxime TONNELIER, Sean ROGERS, Dieudonné TAKASI, Nicolas MA
 
 - Dieudonné et Sean se sont occupé de la partie Authentification [II - Authentification](#ii---authentification)
 - Jo-Michel et Floris se sont occupés de la partie des commentaires [III - Commentaires](#iii---commentaires)
-- Maxime s'est occupé de la gestion des images [IV - Gestion_Image](#iv---gestion_image)
+- Maxime s'est occupé de la gestion des images et du front-end [IV - Gestion_Image](#iv---gestion_image) 
 - Nicolas s'est occupé de la partie Docker [V - Docker](#v---docker)
   
 - Chaque sous-groupe à rédiger la documentation de sa propre partie.
