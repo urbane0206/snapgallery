@@ -69,7 +69,7 @@ Il permet la création et la gestion des comptes utilisateurs ainsi que l'authen
 
 ![loading](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/loading.png)
 
-- Page du profil
+- Page du profil (Cliquez sur le boutton deconnecter si vous souhaitez vous deconnecter).
 
 ![compte_connecte](https://github.com/urbane0206/snapgallery/assets/108905191/73caaf16-5c08-41d1-a909-6b98d565fe92)
 
@@ -135,9 +135,20 @@ Voici les différentes routes que nous avions implémenter :
 
  - Une nouvelle page s'ouvre :
 
-https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/page_login.png
+![upload_image](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/upload_image.png)
 
  - Compléter les différentes cases et cliquer sur Upload
+ - Votre image sera affiché sur la page d'accueil
+
+![feed close](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/feed_close.png)
+
+ - Il est possible de faire une recherche afin de trouver l'image en cliquant sur la barre de recherche de l'accueil et en mettant un mot ayant un lien avec votre image (pour cela nous avons utilisé des requetes rejecs de MySQL) exemple :
+
+![search](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/search.png)
+
+- Pour rechercher votre image il est aussi possibles de faire une recherche par catégories en cliquant sur la barre des catégories
+
+![feed](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/feed.png)
 
 
 ## V - Docker
