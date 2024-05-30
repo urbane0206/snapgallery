@@ -166,6 +166,10 @@ Voici les différentes routes que nous avions implémenter :
 
 ![ddisplay image](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/ddisplay_image.png)
 
+- Une section recommendations a été ajouté
+
+![REcommandation disp](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/REcommandation_disp.png)
+
 
 
 
