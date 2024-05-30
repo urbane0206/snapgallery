@@ -33,15 +33,13 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
     const [dislikedImage, setDislikedImage] = useState(false);
     const [imageViews, setImageViews] = useState(0);
 
-    // Utilise useEffect pour charger les commentaires et leur compte au chargement de l'image
     useEffect(() => {
         fetchCommentsByImageUrl(imageUrl);
         fetchCommentsCountByImageUrl(imageUrl);
         fetchImageLikesDislikes(imageUrl);
-        incrementImageViews(imageUrl);  // Incrémente le compteur de vues à chaque affichage
+        incrementImageViews(imageUrl);
     }, [imageUrl]);
 
-    // Récupère les commentaires d'une image spécifique
     const fetchCommentsByImageUrl = async (url) => {
         try {
             const response = await axios.get(`http://localhost:5000/comments/by-image/${url}`, {
@@ -57,7 +55,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Récupère le nombre de commentaires pour une image spécifique
     const fetchCommentsCountByImageUrl = async (url) => {
         try {
             const response = await axios.get(`http://localhost:5000/comments/by-image/${url}/count`);
@@ -71,7 +68,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Récupère les likes et dislikes de l'image
     const fetchImageLikesDislikes = async (url) => {
         try {
             const response = await axios.get(`http://localhost:5000/images/${url}/likes-dislikes`, {
@@ -82,6 +78,7 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
                 setImageDislikes(response.data.dislikes);
                 setLikedImage(response.data.liked_by_user);
                 setDislikedImage(response.data.disliked_by_user);
+                setImageViews(response.data.views);
             } else {
                 console.error('Failed to fetch image likes/dislikes');
             }
@@ -90,7 +87,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Incrémente le compteur de vues de l'image
     const incrementImageViews = async (url) => {
         try {
             const response = await axios.post(`http://localhost:5000/images/${url}/view`, {}, {
@@ -108,7 +104,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère l'ajout d'un like à un commentaire
     const handleLike = async (commentId) => {
         try {
             const response = await axios.post(`http://localhost:5000/comments/${commentId}/like`, {
@@ -134,7 +129,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère l'ajout d'un dislike à un commentaire
     const handleDislike = async (commentId) => {
         try {
             const response = await axios.post(`http://localhost:5000/comments/${commentId}/dislike`, {
@@ -161,7 +155,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère l'ajout d'un like à l'image
     const handleImageLike = async () => {
         try {
             const response = await axios.post(`http://localhost:5000/images/${imageUrl}/like`, {
@@ -181,7 +174,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère l'ajout d'un dislike à l'image
     const handleImageDislike = async () => {
         try {
             const response = await axios.post(`http://localhost:5000/images/${imageUrl}/dislike`, {
@@ -201,12 +193,10 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère la modification de l'entrée du commentaire
     const handleInputChange = (event) => {
         setNewComment(event.target.value);
     };
 
-    // Gère la soumission d'un nouveau commentaire
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -228,7 +218,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère la mise à jour d'un commentaire existant
     const handleUpdateComment = async (commentId) => {
         try {
             const response = await axios.put(`http://localhost:5000/comments/${commentId}`, {
@@ -244,7 +233,6 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
         }
     };
 
-    // Gère la suppression d'un commentaire existant
     const handleDelete = async (commentId) => {
         try {
             await axios.delete(`http://localhost:5000/comments/${commentId}`, {
@@ -265,8 +253,24 @@ const DisplayImage = ({ imageUrl, title, description, uploadDate, userId }) => {
             <div className='show-image-info'>
                 <p>{imageViews} Vues &bull; {formattedDate}</p>
                 <div>
-                    <span><img src={likedImage ? liked : like} alt="Like" onClick={handleImageLike} style={{ cursor: 'pointer' }} /> {imageLikes}</span>
-                    <span><img src={dislikedImage ? disliked : dislike} alt="Dislike" onClick={handleImageDislike} style={{ cursor: 'pointer' }} /> {imageDislikes}</span>
+                    <span>
+                        <img
+                            src={likedImage ? liked : like}
+                            alt="Like"
+                            onClick={handleImageLike}
+                            style={{ cursor: 'pointer' }}
+                        />
+                        {imageLikes}
+                    </span>
+                    <span>
+                        <img
+                            src={dislikedImage ? disliked : dislike}
+                            alt="Dislike"
+                            onClick={handleImageDislike}
+                            style={{ cursor: 'pointer' }}
+                        />
+                        {imageDislikes}
+                    </span>
                     <span><img src={share} alt="Partager" />Partager</span>
                     <span><img src={save} alt="Enregistrer" />Enregistrer</span>
                 </div>

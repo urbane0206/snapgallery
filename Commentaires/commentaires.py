@@ -116,19 +116,61 @@ def create_comment():
         db.session.rollback()
         return jsonify({'error': 'Failed to create comment'}), 500
 
-@app.route('/images/<path:image_url>/view', methods=['POST'])
-def increment_image_views(image_url):
+@app.route('/images/<path:image_url>/like', methods=['POST'])
+def like_image(image_url):
+    username = request.json.get('username')
     try:
-        image_like = ImageLike.query.filter_by(image_url=image_url).first()
+        image_like = ImageLike.query.filter_by(image_url=image_url, username=username).first()
         if image_like:
-            image_like.views += 1
+            if image_like.likes:
+                db.session.delete(image_like)
+            else:
+                image_like.likes = True
         else:
-            image_like = ImageLike(image_url=image_url, username='', views=1)
+            image_like = ImageLike(image_url=image_url, username=username, likes=True)
             db.session.add(image_like)
         db.session.commit()
-        return jsonify({'views': image_like.views}), 200
+
+        likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
+        dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
+        liked_by_user = ImageLike.query.filter_by(image_url=image_url, username=username, likes=True).first() is not None
+        disliked_by_user = ImageLike.query.filter_by(image_url=image_url, username=username, likes=False).first() is not None
+        return jsonify({
+            'likes': likes,
+            'dislikes': dislikes,
+            'liked_by_user': liked_by_user,
+            'disliked_by_user': disliked_by_user
+        }), 200
     except Exception as e:
-        return jsonify({'error': 'Failed to increment image views'}), 500
+        return jsonify({'error': 'Failed to like image'}), 500
+
+@app.route('/images/<path:image_url>/dislike', methods=['POST'])
+def dislike_image(image_url):
+    username = request.json.get('username')
+    try:
+        image_like = ImageLike.query.filter_by(image_url=image_url, username=username).first()
+        if image_like:
+            if not image_like.likes:
+                db.session.delete(image_like)
+            else:
+                image_like.likes = False
+        else:
+            image_like = ImageLike(image_url=image_url, username=username, likes=False)
+            db.session.add(image_like)
+        db.session.commit()
+
+        likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
+        dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
+        liked_by_user = ImageLike.query.filter_by(image_url=image_url, username=username, likes=True).first() is not None
+        disliked_by_user = ImageLike.query.filter_by(image_url=image_url, username=username, likes=False).first() is not None
+        return jsonify({
+            'likes': likes,
+            'dislikes': dislikes,
+            'liked_by_user': liked_by_user,
+            'disliked_by_user': disliked_by_user
+        }), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to dislike image'}), 500
 
 @app.route('/images/<path:image_url>/likes-dislikes', methods=['GET'])
 def get_image_likes_dislikes(image_url):
@@ -149,50 +191,19 @@ def get_image_likes_dislikes(image_url):
     except Exception as e:
         return jsonify({'error': 'Failed to fetch image likes/dislikes'}), 500
 
-
-@app.route('/images/<path:image_url>/like', methods=['POST'])
-def like_image(image_url):
-    username = request.json.get('username')
-
-    existing_like = ImageLike.query.filter_by(image_url=image_url, username=username, likes=True).first()
-    existing_dislike = ImageLike.query.filter_by(image_url=image_url, username=username, likes=False).first()
-
-    if existing_like:
-        db.session.delete(existing_like)
-    else:
-        if existing_dislike:
-            db.session.delete(existing_dislike)
-        
-        new_like = ImageLike(image_url=image_url, username=username, likes=True)
-        db.session.add(new_like)
-
-    db.session.commit()
-
-    likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
-    dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
-    return jsonify({'likes': likes, 'dislikes': dislikes, 'liked_by_user': True, 'disliked_by_user': False}), 200
-
-@app.route('/images/<path:image_url>/dislike', methods=['POST'])
-def dislike_image(image_url):
-    username = request.json.get('username')
-
-    existing_like = ImageLike.query.filter_by(image_url=image_url, username=username, likes=True).first()
-    existing_dislike = ImageLike.query.filter_by(image_url=image_url, username=username, likes=False).first()
-
-    if existing_dislike:
-        db.session.delete(existing_dislike)
-    else:
-        if existing_like:
-            db.session.delete(existing_like)
-        
-        new_dislike = ImageLike(image_url=image_url, username=username, likes=False)
-        db.session.add(new_dislike)
-
-    db.session.commit()
-
-    likes = ImageLike.query.filter_by(image_url=image_url, likes=True).count()
-    dislikes = ImageLike.query.filter_by(image_url=image_url, likes=False).count()
-    return jsonify({'likes': likes, 'dislikes': dislikes, 'liked_by_user': False, 'disliked_by_user': True}), 200
+@app.route('/images/<path:image_url>/view', methods=['POST'])
+def increment_image_views(image_url):
+    try:
+        image_like = ImageLike.query.filter_by(image_url=image_url).first()
+        if image_like:
+            image_like.views += 1
+        else:
+            image_like = ImageLike(image_url=image_url, username='', views=1)
+            db.session.add(image_like)
+        db.session.commit()
+        return jsonify({'views': image_like.views}), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to increment image views'}), 500
 
 
 # Récupère les commentaires pour une image spécifique
@@ -223,7 +234,7 @@ def update_comment(comment_id):
     app.logger.info(f'Comment ID: {comment_id}, User ID: {current_user_id}, Data: {data}')
 
     if comment.user_id != current_user_id:
-        return jsonify({"error": "You can only edit your own comments"}), 403
+        return jsonify({"error": "Tu ne peux modifier que ton propre commentaire!"}), 403
 
     if 'content' in data:
         comment.content = data['content']
@@ -241,7 +252,7 @@ def delete_comment(comment_id):
     app.logger.info(f'Comment ID: {comment_id}, User ID: {current_user_id}, Data: {data}')
 
     if comment.user_id != current_user_id:
-        return jsonify({"error": "You can only delete your own comments"}), 403
+        return jsonify({"error": "Tu ne peux supprimer que ton propre commentaire!"}), 403
 
     db.session.delete(comment)
     db.session.commit()
