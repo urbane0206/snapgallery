@@ -31,7 +31,7 @@ Chaque microservice utilise également une base de données différente :
 
 Pour notre projet nous utilisons un DOCKER STACK qui possède 7 conteneurs : 
 
-![Docker_Stack](https://github.com/urbane0206/snapgallery/assets/108905191/2405dbe4-e114-4ccc-a446-a0439cc6102f)
+![Docker_Stack](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/Docker_Stack.png)
 
 
 ## II - Authentification
