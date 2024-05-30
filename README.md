@@ -110,6 +110,10 @@ Cette application utilise Flask pour gérer les "likes" et les "dislikes" sur de
 - `GET /comments/<int:comment_id>/like` : Récupère le nombre de "likes" d'un commentaire.
 - `GET /comments/<int:comment_id>/dislike` : Récupère le nombre de "dislikes" d'un commentaire.
 
+- Pour commenter veuillez cliquez sur une image cliquez sur la barre en dessous de l'image "Commentez" et ensuite une fois publié il est possible de liker , des commentaires mais aussi de modifier ou supprimer
+
+![edit commentaire](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/edit_commentaire.png)
+
 
 ## IV - Gestion_Image
 
@@ -158,7 +162,9 @@ Voici les différentes routes que nous avions implémenter :
 
 ![feed](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/feed.png)
 
-- Lorsque vous voulez interagir avec une photo (commenter , liker ...) vous cliquez dessus
+- Lorsque vous voulez interagir avec une photo (commenter , liker ...) vous cliquez dessus 
+
+![ddisplay image](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/ddisplay_image.png)
 
 
 
