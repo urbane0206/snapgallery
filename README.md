@@ -65,6 +65,12 @@ Il permet la création et la gestion des comptes utilisateurs ainsi que l'authen
 
 ![redirection_OAuth2_GitHub](https://github.com/urbane0206/snapgallery/assets/108905191/389f5109-33c8-43c8-89df-6f1fee7404db)
 
+ - Un ecran de chargement est affiché pendant l'attente de la connexion.
+
+![loading](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/loading.png)
+
+- Page du profil
+
 ![compte_connecte](https://github.com/urbane0206/snapgallery/assets/108905191/73caaf16-5c08-41d1-a909-6b98d565fe92)
 
 
