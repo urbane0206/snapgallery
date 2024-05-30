@@ -135,7 +135,7 @@ Voici les différentes routes que nous avions implémenter :
 
  - Une nouvelle page s'ouvre :
 
-https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/page_login.png
+![upload_image](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/upload_image.png)
 
  - Compléter les différentes cases et cliquer sur Upload
  - Votre image sera affiché sur la page d'accueil
