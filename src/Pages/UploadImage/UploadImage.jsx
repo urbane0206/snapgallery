@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import './UploadImage.css'; // Assurez-vous que le chemin est correct
+import './UploadImage.css'; 
 import background from '../../assets/login-bg.png';
 import { useAuth } from '../../auth/AuthContext'; // Importez le contexte d'authentification
 
@@ -10,7 +10,7 @@ const UploadImage = () => {
   const [uploadStatus, setUploadStatus] = useState(''); // État pour le message de confirmation
   const [formData, setFormData] = useState({
     titre: '',
-    categorie: '', // Valeur par défaut vide ou une catégorie par défaut
+    categorie: '', 
     description: ''
   });
   const fileInputRef = useRef();
