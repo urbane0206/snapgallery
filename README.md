@@ -150,8 +150,15 @@ Voici les différentes routes que nous avions implémenter :
 
 ![feed close](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/feed_close.png)
 
- - Il est possible de faire une recherche afin de trouver l'image en cliquant sur la barre de recherche de l'accueil et en mettant un mot ayant un lien avec votre image (pour cela nous avons utilisé des requetes rejecs de MySQL) exemple :
+- Il est possible de faire une recherche afin de trouver l'image en cliquant sur la barre de recherche de l'accueil et en mettant un mot ayant un lien avec votre image (pour cela nous avons utilisé des requetes rejecs de MySQL) exemple :
 
+![search](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/search.png)
+
+- Pour rechercher votre image il est aussi possibles de faire une recherche par catégories en cliquant sur la barre des catégories
+
+![feed](https://github.com/urbane0206/snapgallery/blob/main/Z-images_explicatives/feed.png)
+
+- Lorsque vous voulez interagir avec une photo (commenter , liker ...) vous cliquez dessus
 
 
 
